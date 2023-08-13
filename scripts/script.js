@@ -115,7 +115,7 @@ const displayContentWithFadeIn = (content, delay) => {
   }, delay);
 };
 
-displayContentWithFadeIn(skillsContent, 500);
+displayContentWithFadeIn(aboutContent, 500);
 
 document.getElementById("about").addEventListener("click", () => {
   displayContentWithFadeIn(aboutContent, 1000);

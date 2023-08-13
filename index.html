@@ -4,130 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/style.css" />
-    <title>Your Portfolio</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>My Portfolio</title>
   </head>
   <body>
-    <div id="name-animation-container">
-      <div id="name-animation">
-        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-          <path
-            id="character-s"
-            d="M100 45 C100,30 40,40 60,65 Q100,90 96,100 C95,110 50,110 50,100"
-            fill="none"
-            stroke="#53a0e8"
-            stroke-width="2"
-            stroke-dasharray="450"
-            stroke-dashoffset="450"
-          >
-            <animate
-              attributeName="stroke-dashoffset"
-              dur="5s"
-              to="0"
-              fill="freeze"
-            />
-          </path>
-        </svg>
-      </div>
+    <nav>
+      <ul>
+        <li><a href="#" id="about">About Me</a></li>
+        <li><a href="#" id="projects">Projects</a></li>
+        <li><a href="#" id="skills">Skills</a></li>
+        <li><a href="#" id="contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="content" id="content">
+      <!-- Content will be dynamically loaded here based on menu clicks -->
     </div>
 
-    <section id="portfolio-content" style="opacity: 0">
-      <header>
-        <h2>SURIYA S</h2>
-        <p>Web Developer</p>
-      </header>
-
-      <nav>
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <!-- <li><a href="#skills">Skills</a></li> -->
-          <li><a href="#additional-skills">Additional Skills</a></li>
-          <li><a href="#activities">Extra Curricular Activities</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-
-      <section id="about">
-        <h2>About Me</h2>
-        <p>
-          I'm a passionate web developer with a strong interest in creating
-          user-friendly websites. I love to explore the latest technologies and
-          continuously improve my skills to deliver solutions. I also have a
-          experience in working in java and springboot as well.
-        </p>
-      </section>
-
-      <section id="projects">
-        <h2>Projects</h2>
-        <div class="project">
-          <h3>Portfolio Website</h3>
-          <p>
-            A personal portfolio website showcasing my skills, projects, and
-            contact information. Built using HTML, CSS, and JavaScript.
-          </p>
-        </div>
-      </section>
-
-      <section id="experience">
-        <h2>Experience</h2>
-        <h4>Static Web application</h4>
-        <ul>
-          <li>
-            Collaborated on the development of responsive website layouts.
-          </li>
-          <li>
-            Implemented front-end features using Angular, Bootstrap, and CDN
-            tools.
-          </li>
-          <li>Assisted in testing and debugging web applications.</li>
-        </ul>
-        <h5>Skills Used</h5>
-        <ul>
-          <li>Angular</li>
-          <li>Bootstrap</li>
-          <li>Angular Material</li>
-          <li>Github</li>
-          <li>Git</li>
-        </ul>
-        <h4>Maven API (JAVA)</h4>
-        <ul>
-          <li>Worked in a maintainence for multiple APIs.</li>
-          <li>Handling of dependencies with complex code maintainence.</li>
-          <li>
-            Using standards and provide the code with quality and recording
-            using tools.
-          </li>
-        </ul>
-        <h5>Skills Used</h5>
-        <ul>
-          <li>JAVA</li>
-          <li>Maven</li>
-          <li>Subversion</li>
-          <li>Jenkins</li>
-        </ul>
-      </section>
-
-      <section id="additional-skills">
-        <h2>Additional Skills</h2>
-        <ul>
-          <li>Responsive Web Design</li>
-          <li>Creating of new API Services using springboot</li>
-        </ul>
-      </section>
-
-      <section id="activities">
-        <h2>Extra Curricular Activities</h2>
-        <blockquote>Member of a NGO for helping for the studies of childrens.</blockquote>
-        <blockquote>Volunteered on NGO activities to help the childrens and homes.</blockquote>
-      </section>
-
-      <section id="contact">
-        <h2>Contact Me</h2>
-        Feel free to connect with me on <a href="https://www.linkedin.com/in/ssuriya1/">LinkedIn</a>
-      </section>
-    </section>
-
     <script src="scripts/script.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

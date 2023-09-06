@@ -80,18 +80,19 @@ const contactContent = `
       Feel free to connect with me on <a href="https://www.linkedin.com/in/ssuriya1/" target="_blank">LinkedIn</a>.<br><br>
       In case of call or email, provide the details and reason to contant.
     </p>
-    <form id="contactForm">
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLScC89-lwzOF_oQIOhA9Usz-ADfkrl3b9iAXS4yjlD-lJmG94Q/formResponse"
+    method="POST" id="mG61Hd contactForm">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
-        <input autocomplete='off' type="text" class="form-control" id="name" name="name" required>
+        <input autocomplete='off' type="text" class="form-control" id="name" name="entry.1608625406" required>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input autocomplete='off' type="email" class="form-control" id="email" name="email" required>
+        <input autocomplete='off' type="email" class="form-control" id="email" name="entry.789120512" required>
       </div>
       <div class="mb-3">
         <label for="reason" class="form-label">Reason for Contact</label>
-        <textarea class="form-control" id="reason" name="reason" rows="4" required></textarea>
+        <textarea class="form-control" id="reason" name="entry.357605493" rows="4" required></textarea>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

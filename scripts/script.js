@@ -26,22 +26,24 @@ const aboutContent = `
   </div>
 `;
 
-const projectsContent = `
-  <div class="container">
-    <h1 class="mb-4">Projects</h1>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h3 class="card-title">Portfolio Website</h3>
-            <p class="card-text">A personal portfolio website showcasing my skills, projects, and contact information. Built using HTML, CSS, and JavaScript.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Add more project cards as needed -->
-    </div>
-  </div>
-`;
+const projectsData = [
+  {
+    title: "Portfolio Website",
+    description:
+      "A personal portfolio website showcasing my skills, projects, and contact information. Built using HTML, CSS, and JavaScript.",
+    link: "#",
+  },
+  {
+    title: "Games",
+    description: "List of games created for the purpose of learning.",
+    link: "https://ssuriya1.github.io/Games/",
+  },
+  {
+    title: "Login",
+    description: "Login page with differnt styles and attributes",
+    link: "https://ssuriya1.github.io/Login/",
+  },
+];
 
 const skillsContent = `
 <div class="container">
@@ -136,8 +138,12 @@ document.getElementById("contact").addEventListener("click", () => {
 document.querySelectorAll("nav a").forEach((link) => {
   link.addEventListener("click", (e) => {
     e.preventDefault();
-    const target = document.querySelector(link.getAttribute("href"));
-    target.scrollIntoView({ behavior: "smooth" });
+
+    const targetId = link.getAttribute("href").substring(1);
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
   });
 });
 
@@ -156,17 +162,47 @@ const portfolioContent = document.getElementById("portfolio-content");
 
 // Handle form submission
 const contactForm = document.getElementById("contactForm");
-contactForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+if (contactForm !== null) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  const formData = new FormData(contactForm);
+    const formData = new FormData(contactForm);
 
-  // You can customize the email content here
-  const emailContent = `
+    // You can customize the email content here
+    const emailContent = `
     Name: ${formData.get("name")}
     Email: ${formData.get("email")}
     Reason for Contact: ${formData.get("reason")}
   `;
 
-  contactForm.reset();
-});
+    contactForm.reset();
+  });
+}
+
+const generateProjectCards = (projects) => {
+  let projectCardsHTML = "";
+
+  projects.forEach((project) => {
+    projectCardsHTML += `
+      <a href="${project.link}" class="col-md-6 col-lg-4 d-flex text-decoration-none">
+        <div class="card flex-fill mb-4">
+          <div class="card-body d-flex flex-column">
+            <h3 class="card-title">${project.title}</h3>
+            <p class="card-text flex-grow-1">${project.description}</p>
+          </div>
+        </div>
+      </a>
+    `;
+  });
+
+  return projectCardsHTML;
+};
+
+const projectsContent = `
+  <div class="container">
+    <h1 class="mb-4">Projects</h1>
+    <div class="row">
+      ${generateProjectCards(projectsData)}
+    </div>
+  </div>
+`;

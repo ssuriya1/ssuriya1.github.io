@@ -228,10 +228,16 @@ window.addEventListener('scroll', () => {
     if (!ticking) {
         window.requestAnimationFrame(() => {
             const scrolled = window.pageYOffset;
-            document.querySelectorAll('.parallax-bg').forEach(bg => {
-                const speed = 0.5;
-                bg.style.transform = `translateY(${scrolled * speed}px)`;
+            const sections = document.querySelectorAll('.parallax-section');
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const yPos = (rect.top - window.innerHeight/2) * 0.1;
+                    section.style.backgroundPosition = `0 ${yPos}px`;
+                }
             });
+            
             ticking = false;
         });
         ticking = true;

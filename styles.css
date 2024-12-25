@@ -313,7 +313,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.social-links a:hover {
+social-links a:hover {
   background-color: var(--tag-border);
   transition: color 0.5s;
 }
@@ -448,7 +448,8 @@ footer {
 
 /* Contact Form Styles */
 .contact-form {
-  min-width: 500px;
+  min-width: auto;  /* Remove fixed min-width */
+  max-width: 500px; /* Add max-width */
   margin: 2rem auto;
   width: 100%;
 }
@@ -482,9 +483,10 @@ footer {
 }
 
 .contact-card {
-  min-width: 800px;
-  max-width: 1200px;
+  min-width: auto;  /* Remove fixed min-width */
+  max-width: 800px;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Add hover effects */
@@ -562,6 +564,11 @@ footer {
   animation: fadeIn 0.5s ease forwards;
 }
 
+/* Initial state of menu toggle - hidden by default */
+.menu-toggle {
+  display: none;  /* Hide by default on desktop */
+}
+
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -602,4 +609,108 @@ footer {
     width: 100%;
     text-align: center;
   }
+
+  .menu-toggle {
+    display: block;  /* Show only on mobile */
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 1002;
+    color: var(--accent-color);
+  }
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    /* Navigation */
+    .nav-content {
+        padding: 10px;
+    }
+
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: var(--primary-color); /* Solid dark background */
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        z-index: 1001; /* Higher z-index */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-links a {
+        color: var(--text-color);
+        padding: 12px;
+        width: 100%;
+        border-radius: 0;
+    }
+
+    .nav-links a:hover {
+        background: var(--accent-color);
+        color: var(--primary-color);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1002; /* Even higher z-index */
+    }
+
+    /* Contact Form */
+    .contact-card {
+        padding: 15px;
+        margin: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .contact-form {
+        padding: 0;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    textarea {
+        min-height: 100px;
+    }
+
+    .glass-button {
+        width: 100%;
+        padding: 12px;
+        margin: 5px 0;
+    }
+
+    /* Adjust social links in mobile */
+    .social-links {
+        padding: 10px 0;
+    }
+
+    .social-links a {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+/* Fix for iOS input zoom */
+@media screen and (max-width: 768px) {
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        font-size: 16px !important;
+    }
 }

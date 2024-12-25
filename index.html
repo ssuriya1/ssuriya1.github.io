@@ -1,63 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-adsense-account" content="ca-pub-8038499591786331" />
-    <link rel="stylesheet" href="styles/style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-QY7BV1B2T9"
-    ></script>
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8038499591786331"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-
-      gtag("config", "G-QY7BV1B2T9");
-    </script>
-    <title>My Portfolio</title>
-  </head>
-  <body>
-    <nav>
-      <ul>
-        <li><a href="#" id="about">About Me</a></li>
-        <li><a href="#" id="projects">Projects</a></li>
-        <li><a href="#" id="skills">Skills</a></li>
-        <li><a href="#" id="contact">Contact</a></li>
-      </ul>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suriya S - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="glass-nav">
+        <div class="nav-content">
+            <div class="logo">SS</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
     </nav>
 
-    <div class="content" id="content">
-      <!-- Content will be dynamically loaded here based on menu clicks -->
-    </div>
+    <section id="home" class="parallax-section">
+        <div class="hero-content glass-card">
+            <h1>Suriya S</h1>
+            <div class="typing-text"></div>
+        </div>
+    </section>
 
-    <script src="scripts/script.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    <section id="about" class="section">
+        <div class="glass-card">
+            <h2>About Me</h2>
+            <section>
+                Proficient developer with strong focus on Angular. Skilled in 
+                building high-quality, responsive web applications with CMS and 
+                integrating with APIs. Dedicated to streamlining development 
+                workflows and leveraging automation tools like GitHub Actions and 
+                AWS for efficient deployment. Passionate about learning new technologies and skills.
+            </section>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3>Frontend</h3>
+                    <div class="skill-list">
+                        <span>HTML5</span>
+                        <span>CSS3</span>
+                        <span>JavaScript</span>
+                        <span>TypeScript</span>
+                        <span>Angular</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Backend</h3>
+                    <div class="skill-list">
+                        <span>Java</span>
+                        <span>Spring Boot</span>
+                        <span>Node.js</span>
+                        <span>Python</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Cloud & Tools</h3>
+                    <div class="skill-list">
+                        <span>AWS</span>
+                        <span>GCP</span>
+                        <span>Azure</span>
+                        <span>Docker</span>
+                        <span>Jenkins</span>
+                        <span>GitHub</span>
+                        <span>GitHub Actions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section parallax-section">
+        <div class="glass-card">
+            <h2>Certifications</h2>
+            <div class="timeline">
+                <a href="https://www.credly.com/badges/b184c9cb-2f6a-45aa-b085-823be663b434" target="_blank" rel="noopener noreferrer">
+                    <div class="timeline-item"><h3>GitHub Foundations</h3></div>
+                </a>
+                <a href="https://www.credly.com/badges/e9bd1ed8-448c-4c7f-81a3-bb579c478441" target="_blank" rel="noopener noreferrer">
+                    <div class="timeline-item"><h3>GitHub Actions</h3></div>
+                </a>
+                <a href="https://learn.microsoft.com/en-us/users/suriyas-1116/credentials/b7d4c72770f0757b" target="_blank" rel="noopener noreferrer">
+                    <div class="timeline-item"><h3>Microsoft Fundamentals</h3></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+            <!-- Projects will be dynamically loaded from GitHub -->
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section parallax-section">
+        <div class="glass-card contact-card">
+            <h2>Let's Connect</h2>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/ssuriya1/" target="_blank" rel="noopener noreferrer" class="glass-button">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="glass-button">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+                <div id="formStatus" class="form-status"></div>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
 </html>

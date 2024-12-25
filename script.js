@@ -197,6 +197,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.glass-card').forEach(card => observer.observe(card));
 
     fetchGitHubProjects();
+
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav-content')) {
+            navLinks.classList.remove('active');
+        }
+    });
 });
 
 // Optimize scroll performance
@@ -206,10 +228,15 @@ window.addEventListener('scroll', () => {
     if (!ticking) {
         window.requestAnimationFrame(() => {
             const scrolled = window.pageYOffset;
-            document.querySelectorAll('.parallax-bg').forEach(bg => {
-                const speed = 0.5;
-                bg.style.transform = `translateY(${scrolled * speed}px)`;
-            });
+            const sections = document.querySelectorAll('.parallax-section');
+            
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const yPos = (rect.top - window.innerHeight/2) * 0.1;
+                    section.style.backgroundPosition = `0 ${yPos}px`;
+                }
+            }); 
             ticking = false;
         });
         ticking = true;

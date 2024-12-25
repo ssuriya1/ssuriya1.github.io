@@ -236,8 +236,7 @@ window.addEventListener('scroll', () => {
                     const yPos = (rect.top - window.innerHeight/2) * 0.1;
                     section.style.backgroundPosition = `0 ${yPos}px`;
                 }
-            });
-            
+            }); 
             ticking = false;
         });
         ticking = true;

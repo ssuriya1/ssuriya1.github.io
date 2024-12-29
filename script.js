@@ -48,7 +48,8 @@ async function fetchGitHubProjects() {
         
         const sortProjects = (repos) => {
             const gamesRepo = repos.find(repo => repo.name.toLowerCase().includes('games'));
-            const otherRepos = repos.filter(repo => repo !== gamesRepo)
+            const currentRepo = repos.find(repo => repo.name.toLowerCase().includes('ssuriya1.github.io'));
+            const otherRepos = repos.filter(repo => repo !== gamesRepo && repo !== currentRepo)
                                   .sort((a, b) => b.stargazers_count - a.stargazers_count);
             return gamesRepo ? [gamesRepo, ...otherRepos] : otherRepos;
         };

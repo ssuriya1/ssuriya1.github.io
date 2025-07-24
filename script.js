@@ -49,9 +49,10 @@ async function fetchGitHubProjects() {
         const sortProjects = (repos) => {
             const gamesRepo = repos.find(repo => repo.name.toLowerCase().includes('games'));
             const currentRepo = repos.find(repo => repo.name.toLowerCase().includes('ssuriya1.github.io'));
-            const otherRepos = repos.filter(repo => repo !== gamesRepo && repo !== currentRepo)
+            const liveDemoRepo = repos.find(repo => repo.homepage && repo.homepage.length > 0);
+            const otherRepos = repos.filter(repo => repo !== gamesRepo && repo !== currentRepo && repo != liveDemoRepo)
                                   .sort((a, b) => b.stargazers_count - a.stargazers_count);
-            return gamesRepo ? [gamesRepo, ...otherRepos] : otherRepos;
+            return gamesRepo ? [gamesRepo, liveDemoRepo, ...otherRepos] : otherRepos;
         };
 
         const projects = sortProjects(repos.filter(repo => !repo.fork));

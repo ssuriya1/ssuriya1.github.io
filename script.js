@@ -1,70 +1,415 @@
-import { db } from './firebase-config.js';
-import { setDoc, doc } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js';
+// Load configuration
+let config = {};
 
-// Typing animation constants
-const typingTexts = [
-    'Full Stack Developer',
-    'Cloud Developer',
-    'Problem Solver',
-    'DevOps Engineer'
-];
+async function loadConfig() {
+    try {
+        const response = await fetch('./config.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        config = await response.json();
+        console.log('Config loaded:', config);
+        return config;
+    } catch (error) {
+        console.error('Error loading config:', error);
+        // Fallback config
+        config = {
+            personal: {
+                name: "Suriya S",
+                logo: "SS",
+                title: "Portfolio",
+                typingTexts: ["Frontend Developer", "UI/UX Designer", "React Specialist", "Creative Problem Solver"]
+            },
+            navigation: [
+                { name: "Home", href: "#hero" },
+                { name: "About", href: "#about" },
+                { name: "Projects", href: "#projects" },
+                { name: "Contact", href: "#contact" }
+            ],
+            about: {
+                title: "About Me",
+                description: "I'm a passionate frontend developer who transforms ideas into stunning, interactive web experiences. With expertise in modern frameworks and a keen eye for design, I create digital solutions that not only look amazing but perform flawlessly across all devices.",
+                skills: {
+                    "Frontend": ["React", "Vue.js", "TypeScript", "Next.js", "Tailwind CSS"],
+                    "Design": ["Figma", "Adobe XD", "Photoshop", "UI/UX Design", "Prototyping"],
+                    "Tools": ["Git", "Webpack", "Vite", "GSAP", "Three.js"]
+                }
+            },
+            experience: {
+                title: "Certifications",
+                items: [
+                    { title: "GitHub Foundations", url: "#" }
+                ]
+            },
+            projects: {
+                title: "Featured Projects",
+                github: { username: "ssuriya1", initialCount: 4 }
+            },
+            contact: {
+                title: "Let's Connect",
+                social: [{ name: "LinkedIn", url: "#", icon: "fab fa-linkedin" }],
+                form: {
+                    fields: [
+                        { name: "name", type: "text", placeholder: "Your Name", required: true },
+                        { name: "email", type: "email", placeholder: "Your Email", required: true },
+                        { name: "message", type: "textarea", placeholder: "Your Message", required: true }
+                    ],
+                    submitText: "Send Message",
+                    submitIcon: "fas fa-paper-plane"
+                }
+            },
+            settings: { typingSpeed: 100, typingPause: 3000 }
+        };
+        return config;
+    }
+}
 
-const TYPING_SPEED = 100;
-const TYPING_PAUSE = 3000;
+// Initialize page content from config
+function initializePageContent() {
+    // Set page title
+    document.getElementById('page-title').textContent = `${config.personal.name} - ${config.personal.title}`;
+    
+    // Set navigation
+    const navLogo = document.getElementById('nav-logo');
+    const navLinks = document.getElementById('nav-links');
+    
+    navLogo.textContent = config.personal.logo;
+    navLinks.innerHTML = config.navigation.map(item => 
+        `<a href="${item.href}">${item.name}</a>`
+    ).join('');
+    
+    // Set hero content
+    document.getElementById('hero-name').textContent = config.personal.name;
+    document.getElementById('hero-description').textContent = 'Crafting pixel-perfect, interactive web experiences that captivate users and drive business growth';
+    
+    // Initialize sections
+    initializeAboutSection();
+    initializeExperienceSection();
+    initializeContactSection();
+    
+    // Set projects title
+    document.getElementById('projects-title').textContent = config.projects.title;
+}
 
-// Typing animation
+function initializeAboutSection() {
+    const aboutText = document.getElementById('about-text');
+    const skillsShowcase = document.getElementById('skills-showcase');
+    
+    aboutText.innerHTML = `<p>${config.about.description}</p>`;
+    
+    const skillsHtml = Object.entries(config.about.skills).map(([category, skills]) => `
+        <div class="skill-category">
+            <h3>${category}</h3>
+            <div class="skill-list">
+                ${skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+            </div>
+        </div>
+    `).join('');
+    
+    skillsShowcase.innerHTML = skillsHtml;
+}
+
+function initializeExperienceSection() {
+    const experienceGrid = document.getElementById('experience-grid');
+    
+    const experienceHtml = config.experience.items.map(item => `
+        <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="experience-card">
+            <h3>${item.title}</h3>
+            ${item.description ? `<p>${item.description}</p>` : ''}
+            ${item.dateEarned ? `<div class="experience-date">${new Date(item.dateEarned).toLocaleDateString()}</div>` : ''}
+        </a>
+    `).join('');
+    
+    experienceGrid.innerHTML = experienceHtml;
+}
+
+function initializeContactSection() {
+    const contactMethods = document.getElementById('contact-methods');
+    const contactFormContainer = document.getElementById('contact-form-container');
+    
+    const socialHtml = config.contact.social.map(social => `
+        <a href="${social.url}" target="_blank" rel="noopener noreferrer" class="contact-method">
+            <i class="${social.icon}"></i>
+            <span>${social.name}</span>
+        </a>
+    `).join('');
+    
+    contactMethods.innerHTML = socialHtml;
+    
+    const formHtml = `
+        <form id="contactForm" class="contact-form">
+            ${config.contact.form.fields.map(field => {
+                if (field.type === 'textarea') {
+                    return `
+                        <div class="form-group">
+                            <label for="${field.name}">${field.placeholder}</label>
+                            <textarea id="${field.name}" name="${field.name}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}></textarea>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="form-group">
+                            <label for="${field.name}">${field.placeholder}</label>
+                            <input type="${field.type}" id="${field.name}" name="${field.name}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>
+                        </div>
+                    `;
+                }
+            }).join('')}
+            <button type="submit" class="btn-primary">
+                <i class="${config.contact.form.submitIcon}"></i>
+                ${config.contact.form.submitText}
+            </button>
+            <div id="formStatus" class="form-status"></div>
+        </form>
+    `;
+    
+    contactFormContainer.innerHTML = formHtml;
+}
+
+// Typing animation with proper cleanup
+let typingInterval = null;
+let typingTimeout = null;
+
 function typeText(element, text) {
+    // Clear any existing intervals
+    if (typingInterval) clearInterval(typingInterval);
+    if (typingTimeout) clearTimeout(typingTimeout);
+    
     let index = 0;
     element.innerHTML = '';
     
-    function type() {
+    typingInterval = setInterval(() => {
         if (index < text.length) {
             element.innerHTML += text.charAt(index);
             index++;
-            setTimeout(type, TYPING_SPEED);
+        } else {
+            clearInterval(typingInterval);
+            typingInterval = null;
         }
-    }
-    type();
+    }, config.settings?.typingSpeed || 100);
 }
 
-// Smooth scroll
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const section = document.querySelector(this.getAttribute('href'));
-            section.scrollIntoView({ behavior: 'smooth' });
+function initTypingAnimation() {
+    const typingElement = document.querySelector('.typing-text');
+    if (!typingElement || !config.personal?.typingTexts) return;
+    
+    let textIndex = 0;
+    
+    function displayNextText() {
+        if (typingTimeout) clearTimeout(typingTimeout);
+        
+        typeText(typingElement, config.personal.typingTexts[textIndex]);
+        textIndex = (textIndex + 1) % config.personal.typingTexts.length;
+        
+        typingTimeout = setTimeout(displayNextText, config.settings?.typingPause || 3000);
+    }
+    
+    displayNextText();
+}
+
+// GSAP Animations
+function initAnimations() {
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Hero animations
+    gsap.fromTo('.hero-badge', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.2 }
+    );
+    
+    gsap.fromTo('.hero-title', 
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.4 }
+    );
+    
+    gsap.fromTo('.hero-subtitle', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.6 }
+    );
+    
+    gsap.fromTo('.hero-description', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.8 }
+    );
+    
+    gsap.fromTo('.hero-actions', 
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 1 }
+    );
+    
+    // Floating cards animation
+    gsap.fromTo('.floating-card', 
+        { opacity: 0, scale: 0.8, rotation: -10 },
+        { 
+            opacity: 1, 
+            scale: 1, 
+            rotation: 0, 
+            duration: 1.2, 
+            delay: 1.2,
+            stagger: 0.2,
+            ease: 'back.out(1.7)'
+        }
+    );
+    
+    // Section animations
+    gsap.utils.toArray('.section-header').forEach(header => {
+        gsap.fromTo(header.querySelector('.section-label'),
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: header,
+                    start: 'top 80%'
+                }
+            }
+        );
+        
+        gsap.fromTo(header.querySelector('.section-title'),
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.2,
+                scrollTrigger: {
+                    trigger: header,
+                    start: 'top 80%'
+                }
+            }
+        );
+    });
+    
+    // Skills animation
+    gsap.utils.toArray('.skill-category').forEach((skill, i) => {
+        gsap.fromTo(skill,
+            { opacity: 0, x: -60, rotationY: -15 },
+            {
+                opacity: 1,
+                x: 0,
+                rotationY: 0,
+                duration: 1,
+                delay: i * 0.1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: skill,
+                    start: 'top 85%'
+                }
+            }
+        );
+    });
+    
+    // Experience cards animation
+    gsap.utils.toArray('.experience-card').forEach((card, i) => {
+        gsap.fromTo(card,
+            { opacity: 0, y: 60, scale: 0.9 },
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.8,
+                delay: i * 0.15,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%'
+                }
+            }
+        );
+    });
+    
+    // Project cards animation
+    gsap.utils.toArray('.project-card').forEach((card, i) => {
+        gsap.fromTo(card,
+            { opacity: 0, y: 80, rotationX: 15 },
+            {
+                opacity: 1,
+                y: 0,
+                rotationX: 0,
+                duration: 1,
+                delay: i * 0.1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 85%'
+                }
+            }
+        );
+    });
+    
+    // Contact section animation
+    gsap.fromTo('.contact-info',
+        { opacity: 0, x: -50 },
+        {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            scrollTrigger: {
+                trigger: '.contact-grid',
+                start: 'top 80%'
+            }
+        }
+    );
+    
+    gsap.fromTo('.contact-form-container',
+        { opacity: 0, x: 50 },
+        {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            delay: 0.2,
+            scrollTrigger: {
+                trigger: '.contact-grid',
+                start: 'top 80%'
+            }
+        }
+    );
+    
+    // Parallax effects
+    gsap.utils.toArray('.floating-card').forEach(card => {
+        gsap.to(card, {
+            y: -30,
+            rotation: 5,
+            duration: 3,
+            ease: 'power1.inOut',
+            yoyo: true,
+            repeat: -1
         });
     });
 }
 
-const INITIAL_PROJECT_COUNT = 4;
+// Smooth scroll for navigation
+function initSmoothScroll() {
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('a[href^="#"]')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    });
+}
 
 // Fetch GitHub projects
 async function fetchGitHubProjects() {
     try {
-        const response = await fetch('https://api.github.com/users/ssuriya1/repos');
+        const username = config.projects?.github?.username || 'ssuriya1';
+        const response = await fetch(`https://api.github.com/users/${username}/repos`);
         const repos = await response.json();
         
-        const sortProjects = (repos) => {
-            const gamesRepo = repos.find(repo => repo.name.toLowerCase().includes('games'));
-            const currentRepo = repos.find(repo => repo.name.toLowerCase().includes('ssuriya1.github.io'));
-            const liveDemoRepo = repos.find(repo => repo.homepage && repo.homepage.length > 0);
-            const otherRepos = repos.filter(repo => repo !== gamesRepo && repo !== currentRepo && repo != liveDemoRepo)
-                                  .sort((a, b) => b.stargazers_count - a.stargazers_count);
-            return gamesRepo ? [gamesRepo, liveDemoRepo, ...otherRepos] : otherRepos;
-        };
-
-        const projects = sortProjects(repos.filter(repo => !repo.fork));
-        const projectsGrid = document.querySelector('.projects-grid');
+        const projects = repos.filter(repo => !repo.fork).slice(0, 6);
+        const projectsGrid = document.getElementById('projects-grid');
         projectsGrid.innerHTML = '';
 
-        projects.forEach((project, index) => {
+        projects.forEach((project) => {
             const technologies = project.topics || [];
             const hasWebsite = project.homepage && project.homepage.length > 0;
             
             const projectCard = document.createElement('div');
-            projectCard.className = `project-card glass-card ${index >= INITIAL_PROJECT_COUNT ? 'hidden' : ''}`;
+            projectCard.className = 'project-card';
             projectCard.innerHTML = `
                 <div class="project-content">
                     <h3>${project.name}</h3>
@@ -77,11 +422,11 @@ async function fetchGitHubProjects() {
                         ${technologies.map(tech => `<span>${tech}</span>`).join('')}
                     </div>
                     <div class="project-links">
-                        <a href="${project.html_url}" target="_blank" rel="noopener noreferrer" class="glass-button">
+                        <a href="${project.html_url}" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-github"></i> Code
                         </a>
                         ${hasWebsite ? `
-                            <a href="${project.homepage}" target="_blank" rel="noopener noreferrer" class="glass-button">
+                            <a href="${project.homepage}" target="_blank" rel="noopener noreferrer">
                                 <i class="fas fa-external-link-alt"></i> Live Demo
                             </a>
                         ` : ''}
@@ -91,197 +436,41 @@ async function fetchGitHubProjects() {
             
             projectsGrid.appendChild(projectCard);
         });
-
-        if (projects.length > INITIAL_PROJECT_COUNT) {
-            const showMoreContainer = document.createElement('div');
-            showMoreContainer.className = 'show-more-container visible';
-            showMoreContainer.innerHTML = '<button class="show-more-btn">Show More</button>';
-            projectsGrid.parentElement.appendChild(showMoreContainer);
-
-            const showMoreBtn = showMoreContainer.querySelector('.show-more-btn');
-            showMoreBtn.addEventListener('click', () => toggleProjects(true));
-
-            // Hide cards beyond initial count
-            projects.forEach((_, index) => {
-                if (index >= INITIAL_PROJECT_COUNT) {
-                    const card = projectsGrid.children[index];
-                    if (card) {
-                        card.style.display = 'none';
-                        card.classList.add('hidden');
-                    }
-                }
-            });
-        }
     } catch (error) {
         console.error('Error fetching GitHub projects:', error);
-        document.querySelector('.projects-grid').innerHTML = `
-            <div class="glass-card">
+        document.getElementById('projects-grid').innerHTML = `
+            <div class="project-card">
                 <p>Error loading projects. Please try again later.</p>
             </div>
         `;
     }
 }
 
-function toggleProjects(show = true) {
-    const projectCards = document.querySelectorAll('.project-card');
-    const showMoreContainer = document.querySelector('.show-more-container');
-    
-    // Remove old event listeners
-    const oldBtn = showMoreContainer.querySelector('button');
-    if (oldBtn) {
-        oldBtn.parentNode.removeChild(oldBtn);
-    }
-
-    const newBtn = document.createElement('button');
-    newBtn.className = show ? 'show-less-btn' : 'show-more-btn';
-    newBtn.textContent = show ? 'Show Less' : 'Show More';
-    newBtn.addEventListener('click', () => toggleProjects(!show));
-    showMoreContainer.appendChild(newBtn);
-
-    // Handle visibility
-    projectCards.forEach((card, index) => {
-        if (index >= INITIAL_PROJECT_COUNT) {
-            if (show) {
-                card.style.display = 'flex';
-                setTimeout(() => {
-                    card.classList.remove('hidden');
-                }, 10);
-            } else {
-                card.classList.add('hidden');
-                setTimeout(() => {
-                    card.style.display = 'none';
-                }, 300);
-            }
-        }
-    });
-
-    if (show) {
-        const firstHiddenCard = projectCards[INITIAL_PROJECT_COUNT];
-        if (firstHiddenCard) {
-            setTimeout(() => {
-                firstHiddenCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
-        }
-    } else {
-        const lastVisibleCard = projectCards[INITIAL_PROJECT_COUNT - 1];
-        if (lastVisibleCard) {
-            setTimeout(() => {
-                lastVisibleCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
-        }
-    }
-}
-
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    const typingElement = document.querySelector('.typing-text');
-    let textIndex = 0;
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM loaded, initializing...');
     
-    function displayNextText() {
-        typeText(typingElement, typingTexts[textIndex]);
-        textIndex = (textIndex + 1) % typingTexts.length;
-        setTimeout(displayNextText, TYPING_PAUSE);
-    }
+    // Load configuration first
+    await loadConfig();
     
-    displayNextText();
+    console.log('Config loaded, initializing content...');
+    
+    // Initialize page content
+    initializePageContent();
+    
+    // Initialize smooth scroll
     initSmoothScroll();
     
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver(
-        entries => entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
-            }
-        }),
-        { threshold: 0.1 }
-    );
+    // Initialize typing animation
+    initTypingAnimation();
     
-    document.querySelectorAll('.glass-card').forEach(card => observer.observe(card));
-
+    // Initialize animations
+    setTimeout(() => {
+        initAnimations();
+    }, 100);
+    
+    // Load GitHub projects
     fetchGitHubProjects();
-
-    // Mobile menu toggle
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
     
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-
-    // Close mobile menu when clicking a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.nav-content')) {
-            navLinks.classList.remove('active');
-        }
-    });
-});
-
-// Optimize scroll performance
-let ticking = false;
-
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            const scrolled = window.pageYOffset;
-            const sections = document.querySelectorAll('.parallax-section');
-            
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const yPos = (rect.top - window.innerHeight/2) * 0.1;
-                    section.style.backgroundPosition = `0 ${yPos}px`;
-                }
-            }); 
-            ticking = false;
-        });
-        ticking = true;
-    }
-});
-
-// Contact form handling
-document.getElementById('contactForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formStatus = document.getElementById('formStatus');
-    const submitButton = e.target.querySelector('button[type="submit"]');
-    
-    try {
-        submitButton.disabled = true;
-        formStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        
-        const timestamp = new Date();
-        const name = document.getElementById('name').value;
-        const docId = `${name}_${timestamp.getTime()}`;
-        
-        const formData = {
-            name: name,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value,
-            timestamp: timestamp
-        };
-        
-        await setDoc(doc(db, "github-messages", docId), formData);
-        
-        e.target.reset();
-        formStatus.innerHTML = '<i class="fas fa-check"></i> Message sent successfully!';
-        formStatus.style.color = 'var(--accent-color)';
-        
-        setTimeout(() => {
-            formStatus.innerHTML = '';
-        }, 5000);
-        
-    } catch (error) {
-        console.error('Error sending message:', error);
-        formStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to send message. Please try again.';
-        formStatus.style.color = '#ff4444';
-    } finally {
-        submitButton.disabled = false;
-    }
+    console.log('Initialization complete');
 });

@@ -1,0 +1,89 @@
+{
+  "personal": {
+    "name": "Suriya S",
+    "logo": "SS",
+    "title": "Portfolio",
+    "typingTexts": [
+      "Full Stack Developer",
+      "Cloud Developer", 
+      "Problem Solver",
+      "DevOps Engineer"
+    ]
+  },
+  "navigation": [
+    { "name": "Home", "href": "#hero" },
+    { "name": "About", "href": "#about" },
+    { "name": "Experience", "href": "#experience" },
+    { "name": "Projects", "href": "#projects" },
+    { "name": "Contact", "href": "#contact" }
+  ],
+  "about": {
+    "title": "About Me",
+    "description": "Proficient developer with strong focus on Angular. Skilled in building high-quality, responsive web applications with CMS and integrating with APIs. Dedicated to streamlining development workflows and leveraging automation tools like GitHub Actions and AWS for efficient deployment. Passionate about learning new technologies and skills.",
+    "skills": {
+      "Frontend": ["HTML5", "CSS3", "JavaScript", "TypeScript", "Angular"],
+      "Backend": ["Java", "Spring Boot", "Node.js", "Python"],
+      "Cloud & Tools": ["AWS", "GCP", "Azure", "Docker", "Jenkins", "GitHub", "GitHub Actions"]
+    }
+  },
+  "experience": {
+    "title": "Certifications",
+    "items": [
+      {
+        "title": "GitHub Foundations",
+        "url": "https://www.credly.com/badges/b184c9cb-2f6a-45aa-b085-823be663b434"
+      },
+      {
+        "title": "GitHub Actions", 
+        "url": "https://www.credly.com/badges/e9bd1ed8-448c-4c7f-81a3-bb579c478441"
+      },
+      {
+        "title": "GitHub Administration",
+        "url": "https://www.credly.com/badges/f831ce43-177a-49f6-ba69-f89c5d2aa766"
+      },
+      {
+        "title": "GitHub Copilot",
+        "url": "https://www.credly.com/badges/fff6ab79-3c04-4e2e-b5ab-e8c198ad28b6"
+      },
+      {
+        "title": "Microsoft Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/users/suriyas-1116/credentials/b7d4c72770f0757b"
+      }
+    ]
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "github": {
+      "username": "ssuriya1",
+      "initialCount": 4
+    }
+  },
+  "contact": {
+    "title": "Let's Connect",
+    "social": [
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/in/ssuriya1/",
+        "icon": "fab fa-linkedin"
+      }
+    ],
+    "form": {
+      "fields": [
+        { "name": "name", "type": "text", "placeholder": "Your Name", "required": true },
+        { "name": "email", "type": "email", "placeholder": "Your Email", "required": true },
+        { "name": "message", "type": "textarea", "placeholder": "Your Message", "required": true }
+      ],
+      "submitText": "Send Message",
+      "submitIcon": "fas fa-paper-plane"
+    }
+  },
+  "settings": {
+    "typingSpeed": 100,
+    "typingPause": 3000,
+    "theme": {
+      "primaryColor": "#0a192f",
+      "secondaryColor": "#64ffda",
+      "accentColor": "#64ffda"
+    }
+  }
+}

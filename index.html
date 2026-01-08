@@ -3,154 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suriya S - Portfolio</title>
+    <title id="page-title">Loading...</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-    <nav class="glass-nav">
-        <div class="nav-content">
-            <div class="logo">SS</div>
-            <div class="menu-toggle">
-                <i class="fas fa-bars"></i>
+    <nav class="modern-nav">
+        <div class="nav-container">
+            <div class="nav-brand" id="nav-logo">Loading...</div>
+            <div class="nav-menu" id="nav-links">
+                <!-- Navigation will be dynamically loaded -->
             </div>
-
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#experience">Experience</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+            <div class="nav-cta">
+                <a href="#contact" class="cta-button">Get In Touch</a>
             </div>
         </div>
     </nav>
 
-    <section id="home" class="parallax-section">
-
-        <div class="parallax-content">
-            <div class="hero-content glass-card">
-                <h1>Suriya S</h1>
-                <div class="typing-text"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="parallax-section">
-        <div class="parallax-content">
-            <div class="glass-card">
-                <h2>About Me</h2>
-                <section>
-                    Proficient developer with strong focus on Angular. Skilled in 
-                    building high-quality, responsive web applications with CMS and 
-                    integrating with APIs. Dedicated to streamlining development 
-                    workflows and leveraging automation tools like GitHub Actions and 
-                    AWS for efficient deployment. Passionate about learning new technologies and skills.
-                </section>
-                <div class="skills-container">
-                    <div class="skill-category">
-                        <h3>Frontend</h3>
-                        <div class="skill-list">
-                            <span>HTML5</span>
-                            <span>CSS3</span>
-                            <span>JavaScript</span>
-                            <span>TypeScript</span>
-                            <span>Angular</span>
-                        </div>
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">👋 Available for opportunities</div>
+                    <h1 class="hero-title" id="hero-name">Loading...</h1>
+                    <div class="hero-subtitle">
+                        <span class="typing-text"></span>
                     </div>
-                    <div class="skill-category">
-                        <h3>Backend</h3>
-                        <div class="skill-list">
-                            <span>Java</span>
-                            <span>Spring Boot</span>
-                            <span>Node.js</span>
-                            <span>Python</span>
-                        </div>
+                    <p class="hero-description" id="hero-description">Crafting pixel-perfect, interactive web experiences that captivate users and drive business growth</p>
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn-primary">View My Work</a>
+                        <a href="#about" class="btn-secondary">Learn More</a>
                     </div>
-                    <div class="skill-category">
-                        <h3>Cloud & Tools</h3>
-                        <div class="skill-list">
-                            <span>AWS</span>
-                            <span>GCP</span>
-                            <span>Azure</span>
-                            <span>Docker</span>
-                            <span>Jenkins</span>
-                            <span>GitHub</span>
-                            <span>GitHub Actions</span>
-                        </div>
-
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-image">
+                        <div class="floating-card card-1"></div>
+                        <div class="floating-card card-2"></div>
+                        <div class="floating-card card-3"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="experience" class="parallax-section">
-        <div class="parallax-content">
-            <div class="glass-card">
-                <h2>Certifications</h2>
-                <div class="timeline">
-                    <a href="https://www.credly.com/badges/b184c9cb-2f6a-45aa-b085-823be663b434" target="_blank" rel="noopener noreferrer">
-                        <div class="timeline-item"><h3>GitHub Foundations</h3></div>
-                    </a>
-                    <a href="https://www.credly.com/badges/e9bd1ed8-448c-4c7f-81a3-bb579c478441" target="_blank" rel="noopener noreferrer">
-                        <div class="timeline-item"><h3>GitHub Actions</h3></div>
-                    </a>
-                    <a href="https://www.credly.com/badges/f831ce43-177a-49f6-ba69-f89c5d2aa766" target="_blank" rel="noopener noreferrer">
-                        <div class="timeline-item"><h3>GitHub Administration</h3></div>
-                    </a>
-                    <a href="https://www.credly.com/badges/fff6ab79-3c04-4e2e-b5ab-e8c198ad28b6" target="_blank" rel="noopener noreferrer">
-                        <div class="timeline-item"><h3>GitHub Copilot</h3></div>
-                    </a>
-                    <a href="https://learn.microsoft.com/en-us/users/suriyas-1116/credentials/b7d4c72770f0757b" target="_blank" rel="noopener noreferrer">
-                        <div class="timeline-item"><h3>Microsoft Fundamentals</h3></div>
-                    </a>
+        <section id="about" class="about-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-label">About</span>
+                    <h2 class="section-title">Who I Am</h2>
                 </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="parallax-section">
-        <div class="parallax-content">
-            <h2>Featured Projects</h2>
-            <div class="projects-grid">
-                <!-- Projects will be dynamically loaded from GitHub -->
-                <div class="loading-spinner">
-                    <i class="fas fa-spinner fa-spin"></i>
+                <div class="about-grid">
+                    <div class="about-content" id="about-text">
+                        <!-- About content will be dynamically loaded -->
+                    </div>
+                    <div class="skills-showcase" id="skills-showcase">
+                        <!-- Skills will be dynamically loaded -->
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact" class="parallax-section">
-        <div class="parallax-content">
-            <div class="glass-card contact-card">
-                <h2>Let's Connect</h2>
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/ssuriya1/" target="_blank" rel="noopener noreferrer" class="glass-button">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
-                        </div>
-                        <button type="submit" class="glass-button">
-                            <i class="fas fa-paper-plane"></i> Send Message
-                        </button>
-                    </form>
-                    <div id="formStatus" class="form-status"></div>
+        <section id="experience" class="experience-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-label">Credentials</span>
+                    <h2 class="section-title">Certifications & Achievements</h2>
+                </div>
+                <div class="experience-grid" id="experience-grid">
+                    <!-- Experience content will be dynamically loaded -->
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="script.js"></script>
+        <section id="projects" class="projects-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-label">Portfolio</span>
+                    <h2 class="section-title" id="projects-title">Featured Projects</h2>
+                </div>
+                <div class="projects-grid" id="projects-grid">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="section-container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2 class="contact-title" id="contact-title">Let's Work Together</h2>
+                        <p class="contact-description">Ready to bring your ideas to life? Let's discuss your next project.</p>
+                        <div class="contact-methods" id="contact-methods">
+                            <!-- Contact methods will be dynamically loaded -->
+                        </div>
+                    </div>
+                    <div class="contact-form-container" id="contact-form-container">
+                        <!-- Contact form will be dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>

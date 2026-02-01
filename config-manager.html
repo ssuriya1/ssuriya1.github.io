@@ -279,6 +279,90 @@
             body {
                 padding: var(--spacing-sm);
             }
+            
+            .container {
+                padding: 0;
+            }
+            
+            section {
+                padding: var(--spacing-lg);
+                margin-bottom: var(--spacing-md);
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: var(--spacing-lg);
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .accordion-header {
+                padding: var(--spacing-sm);
+            }
+            
+            .accordion-content.active {
+                padding: var(--spacing-sm);
+            }
+            
+            .skill-item, .cert-item, .contact-item {
+                padding: var(--spacing-sm);
+            }
+            
+            .btn-primary, .btn-secondary {
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: 0.9rem;
+            }
+            
+            .json-output {
+                font-size: 0.8rem;
+                max-height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: var(--spacing-xs);
+            }
+            
+            section {
+                padding: var(--spacing-md);
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+            }
+            
+            .section-label {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            input, textarea, select {
+                padding: var(--spacing-xs);
+                font-size: 0.9rem;
+            }
+            
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: var(--spacing-xs);
+            }
+            
+            .accordion-header h2 {
+                font-size: 1rem;
+            }
+            
+            .json-output {
+                font-size: 0.7rem;
+                max-height: 200px;
+                padding: var(--spacing-xs);
+            }
         }
     </style>
 </head>

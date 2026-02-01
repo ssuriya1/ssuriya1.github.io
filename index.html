@@ -1,137 +1,123 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Frontend Developer Portfolio</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- Cursor Follower -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="cursor-dot" data-cursor-dot></div>
     <div class="cursor-outline" data-cursor-outline></div>
 
-    <!-- Navigation -->
     <nav class="nav">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span class="logo-text"><!-- Logo will be loaded dynamically --></span>
-            </div>
-            <ul class="nav-menu">
-                <!-- Navigation will be loaded dynamically -->
-            </ul>
-            <button class="theme-toggle" id="theme-toggle">
-                <i class="fas fa-moon"></i>
-                <span>Dark</span>
-            </button>
+      <div class="nav-container">
+        <div class="nav-logo">
+          <span class="logo-text"> </span>
         </div>
+        <ul class="nav-menu"></ul>
+        <button class="theme-toggle" id="theme-toggle">
+          <i class="fas fa-moon"></i>
+          <span>Dark</span>
+        </button>
+      </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-bg">
-            <div class="floating-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
-                <div class="shape shape-4"></div>
-            </div>
+      <div class="hero-bg">
+        <div class="floating-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+          <div class="shape shape-4"></div>
         </div>
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">
-                    <!-- Title will be loaded dynamically -->
-                </h1>
-                <p class="hero-subtitle">Passionate about building scalable web applications and cloud solutions with modern technologies.</p>
-                <div class="hero-buttons">
-                    <a href="#" id="view-work-btn" class="btn btn-primary">View Work</a>
-                    <a href="#" id="get-in-touch-btn" class="btn btn-outline">Get In Touch</a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="code-window">
-                    <div class="window-header">
-                        <div class="window-controls">
-                            <span class="control red"></span>
-                            <span class="control yellow"></span>
-                            <span class="control green"></span>
-                        </div>
-                        <span class="window-title">portfolio.js</span>
-                    </div>
-                    <div class="code-content">
-                        <!-- Code content will be loaded dynamically -->
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title"></h1>
+          <p class="hero-subtitle">
+            Passionate about building scalable web applications and cloud
+            solutions with modern technologies.
+          </p>
+          <div class="hero-buttons">
+            <a href="#" id="view-work-btn" class="btn btn-primary">View Work</a>
+            <a href="#" id="get-in-touch-btn" class="btn btn-outline"
+              >Get In Touch</a
+            >
+          </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
-            <span>Scroll</span>
+        <div class="hero-visual">
+          <div class="code-window">
+            <div class="window-header">
+              <div class="window-controls">
+                <span class="control red"></span>
+                <span class="control yellow"></span>
+                <span class="control green"></span>
+              </div>
+              <span class="window-title">portfolio.js</span>
+            </div>
+            <div class="code-content"></div>
+          </div>
         </div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">01</span>
-                <h2 class="section-title">About Me</h2>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <!-- About content will be loaded dynamically -->
-                </div>
-                <div class="about-image">
-                    <div class="image-container">
-                        <div class="tech-orbit" id="tech-orbit">
-                            <!-- Tech icons will be loaded dynamically -->
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">01</span>
+          <h2 class="section-title">About Me</h2>
         </div>
+        <div class="about-content">
+          <div class="about-text"></div>
+          <div class="about-image">
+            <div class="image-container">
+              <div class="tech-orbit" id="tech-orbit"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Skills Section -->
     <section id="skills" class="skills">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">02</span>
-                <h2 class="section-title">Skills & Technologies</h2>
-            </div>
-            <div class="skills-grid">
-                <!-- Skills will be loaded dynamically -->
-            </div>
+      <div class="parallax-bg">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
+      </div>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">02</span>
+          <h2 class="section-title">Skills & Technologies</h2>
         </div>
+        <div class="skills-grid"></div>
+      </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-number">04</span>
-                <h2 class="section-title">Let's Work Together</h2>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <!-- Contact info will be loaded dynamically -->
-                </div>
-                <form class="contact-form">
-                    <!-- Form fields will be loaded dynamically -->
-                </form>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">04</span>
+          <h2 class="section-title">Let's Work Together</h2>
         </div>
+        <div class="contact-content">
+          <div class="contact-info"></div>
+          <form class="contact-form"></form>
+        </div>
+      </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 <span id="footer-name"><!-- Name will be loaded dynamically --></span>. All rights reserved.</p>
-        </div>
-    </footer>
-
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>

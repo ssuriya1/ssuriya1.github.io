@@ -5,26 +5,41 @@
     "title": "Portfolio",
     "typingTexts": [
       "Full Stack Developer",
-      "Cloud Developer", 
-      "Problem Solver",
+      "Cloud Developer",
       "DevOps Engineer"
     ]
   },
   "navigation": [
-    { "name": "Home", "href": "#hero" },
+    { "name": "Home", "href": "#home" },
     { "name": "About", "href": "#about" },
     { "name": "Experience", "href": "#experience" },
-    { "name": "Projects", "href": "#projects" },
     { "name": "Contact", "href": "#contact" }
   ],
   "about": {
     "title": "About Me",
     "description": "Proficient developer with strong focus on Angular. Skilled in building high-quality, responsive web applications with CMS and integrating with APIs. Dedicated to streamlining development workflows and leveraging automation tools like GitHub Actions and AWS for efficient deployment. Passionate about learning new technologies and skills.",
+    "stats": {
+      "repositories": 25,
+      "certifications": 5,
+      "technologies": 20
+    },
     "skills": {
-      "Frontend": ["HTML5", "CSS3", "JavaScript", "TypeScript", "Angular"],
-      "Backend": ["Java", "Spring Boot", "Node.js", "Python"],
-      "Cloud & Tools": ["AWS", "GCP", "Azure", "Docker", "Jenkins", "GitHub", "GitHub Actions"]
-    }
+      "Frontend": ["HTML5", "CSS3", "JavaScript", "TypeScript", "Angular", "Ionic", "Bootstrap", "Material UI"],
+      "Backend": ["Java", "Spring Boot", "Node.js", "Python", "Microservices"],
+      "Database": ["MySQL", "MongoDB"],
+      "Cloud & DevOps": ["AWS", "GCP", "Azure", "Docker", "Kubernetes", "Jenkins", "GitHub Actions"],
+      "Tools & Others": ["Git", "GitHub", "VS Code", "IntelliJ IDEA", "Postman", "SOAP UI"]
+    },
+    "techOrbit": [
+      {"icon": "fab fa-angular", "color": "#dd0031", "name": "Angular"},
+      {"icon": "fab fa-aws", "color": "#ff9900", "name": "AWS"},
+      {"icon": "fab fa-java", "color": "#007396", "name": "Java"},
+      {"icon": "fab fa-docker", "color": "#2496ed", "name": "Docker"},
+      {"icon": "fab fa-node-js", "color": "#339933", "name": "Node.js"},
+      {"icon": "fas fa-database", "color": "#336791", "name": "Database"},
+      {"icon": "fab fa-python", "color": "#3776ab", "name": "Python"},
+      {"icon": "fab fa-git-alt", "color": "#f05032", "name": "Git"}
+    ]
   },
   "experience": {
     "title": "Certifications",
@@ -34,7 +49,7 @@
         "url": "https://www.credly.com/badges/b184c9cb-2f6a-45aa-b085-823be663b434"
       },
       {
-        "title": "GitHub Actions", 
+        "title": "GitHub Actions",
         "url": "https://www.credly.com/badges/e9bd1ed8-448c-4c7f-81a3-bb579c478441"
       },
       {
@@ -53,10 +68,8 @@
   },
   "projects": {
     "title": "Featured Projects",
-    "github": {
-      "username": "ssuriya1",
-      "initialCount": 4
-    }
+    "githubUrl": "https://github.com/ssuriya1",
+    "viewAllText": "View All Projects"
   },
   "contact": {
     "title": "Let's Connect",

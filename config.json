@@ -3,86 +3,265 @@
     "name": "Suriya S",
     "logo": "SS",
     "title": "Portfolio",
+    "subtitle": "GenAI / Agentic AI Engineer & Full Stack Developer with 5+ years of experience building scalable applications and intelligent AI-powered solutions.",
     "typingTexts": [
+      "GenAI / Agentic AI Engineer",
       "Full Stack Developer",
       "Cloud Developer",
-      "DevOps Engineer"
-    ]
+      "Angular Expert"
+    ],
+    "resumeUrl": "Resume.pdf"
   },
   "navigation": [
-    { "name": "Home", "href": "#home" },
-    { "name": "About", "href": "#about" },
-    { "name": "Certifications", "href": "#certifications" },
-    { "name": "Contact", "href": "#contact" }
+    { "name": "Home",          "href": "#home" },
+    { "name": "About",         "href": "#about" },
+    { "name": "Skills",        "href": "#skills" },
+    { "name": "AI & GenAI",    "href": "#ai-skills" },
+    { "name": "Certifications","href": "#certifications" },
+    { "name": "Highlights",    "href": "#highlights" },
+    { "name": "Contact",       "href": "#contact" }
   ],
   "about": {
     "title": "About Me",
-    "description": "Proficient developer with strong focus on Angular. Skilled in building high-quality, responsive web applications with CMS and integrating with APIs. Dedicated to streamlining development workflows and leveraging automation tools like GitHub Actions and AWS for efficient deployment. Passionate about learning new technologies and skills.",
+    "description": "Experienced GenAI / Agentic AI Engineer and Full Stack Developer with 5.8+ years of expertise building production-grade AI systems and scalable web applications. Specialized in multi-agent orchestration, RAG pipelines, real-time streaming architectures, and Angular-based frontends. Proficient across GCP, AWS, and Azure, with hands-on experience integrating LLMs into enterprise workflows using LangChain, LangGraph, and Anthropic Claude API.",
+    "highlights": [
+      { "label": "Years Experience", "value": 5, "suffix": "+" },
+      { "label": "Certifications",   "value": 6 },
+      { "label": "Technologies",     "countFromSkills": true }
+    ],
     "skills": {
-      "Frontend": [ "HTML5", "CSS3", "JavaScript", "TypeScript", "Angular", "Ionic", "Bootstrap", "Material UI" ],
-      "Backend": [ "Java", "Spring Boot", "Node.js", "Python", "Microservices" ],
-      "Database": [ "MySQL", "MongoDB" ],
-      "Cloud & DevOps": [ "AWS", "GCP", "Azure", "Docker", "Kubernetes", "Jenkins", "GitHub Actions" ],
-      "Tools & Others": [ "Git", "GitHub", "VS Code", "IntelliJ IDEA", "Postman", "SOAP UI" ]
+      "AI & GenAI": [
+        "Claude API", "Vertex AI (Gemini)", "Azure OpenAI", "LangChain", "LangGraph",
+        "MCP Servers", "Claude Code", "Prompt Engineering", "RAG Pipelines",
+        "Multi-Agent Systems", "HILT", "Guardrails AI", "RAGAS"
+      ],
+      "Frontend": [
+        "Angular 17+", "Ionic", "Capacitor", "RxJS", "NgRx",
+        "TypeScript", "JavaScript (ES6+)", "HTML5", "CSS3", "Bootstrap", "Material UI"
+      ],
+      "Backend": [
+        "Java", "Spring Boot", "Node.js", "Python", "Microservices"
+      ],
+      "Database": [
+        "MySQL", "MongoDB", "Firestore"
+      ],
+      "Amazon Web Services": [
+        "Lambda", "API Gateway", "S3", "DynamoDB", "EC2", "CloudFront", "Bedrock"
+      ],
+      "Google Cloud Platform": [
+        "Vertex AI", "Cloud Run", "Pub/Sub", "Cloud Functions", "Cloud Storage"
+      ],
+      "Microsoft Azure": [
+        "Azure OpenAI Service", "Azure Functions", "Azure Monitor"
+      ],
+      "DevOps & CI/CD": [
+        "Docker", "Jenkins", "GitHub Actions", "Git"
+      ],
+      "Tools & Others": [
+        "VS Code", "IntelliJ IDEA", "Postman", "SOAP UI",
+        "Server-Sent Events (SSE)", "GitHub", "Agile / Scrum"
+      ]
     },
     "techOrbit": [
-      { "icon": "fab fa-angular", "color": "#dd0031", "name": "Angular" },
-      { "icon": "fab fa-aws", "color": "#ff9900", "name": "AWS" },
-      { "icon": "fab fa-java", "color": "#007396", "name": "Java" },
-      { "icon": "fab fa-docker", "color": "#2496ed", "name": "Docker" },
-      { "icon": "fab fa-node-js", "color": "#339933", "name": "Node.js" },
-      { "icon": "fas fa-database", "color": "#336791", "name": "Database" },
-      { "icon": "fab fa-python", "color": "#3776ab", "name": "Python" },
-      { "icon": "fab fa-git-alt", "color": "#f05032", "name": "Git" }
+      { "icon": "fab fa-angular",  "color": "#dd0031", "name": "Angular" },
+      { "icon": "fab fa-aws",      "color": "#ff9900", "name": "AWS" },
+      { "icon": "fas fa-brain",    "color": "#64ffda", "name": "AI / LLM" },
+      { "icon": "fab fa-docker",   "color": "#2496ed", "name": "Docker" },
+      { "icon": "fab fa-node-js",  "color": "#339933", "name": "Node.js" },
+      { "icon": "fab fa-python",   "color": "#3776ab", "name": "Python" },
+      { "icon": "fab fa-java",     "color": "#007396", "name": "Java" },
+      { "icon": "fab fa-git-alt",  "color": "#f05032", "name": "Git" }
+    ]
+  },
+  "aiSkills": {
+    "title": "AI & GenAI Expertise",
+    "sectionNumber": "03",
+    "categories": [
+      {
+        "id": "llm",
+        "icon": "fas fa-microchip",
+        "title": "LLM Technologies",
+        "color": "#64ffda",
+        "items": [
+          "Anthropic Claude API (Sonnet / Opus)",
+          "Vertex AI — Gemini Pro",
+          "Azure OpenAI",
+          "Tool-use patterns",
+          "Multi-step orchestration",
+          "Streaming responses (SSE)"
+        ]
+      },
+      {
+        "id": "agentic",
+        "icon": "fas fa-sitemap",
+        "title": "Agentic Patterns",
+        "color": "#a78bfa",
+        "items": [
+          "Multi-Agent Orchestration",
+          "Sequential & Hierarchical patterns",
+          "Hub-and-Spoke architecture",
+          "ReAct reasoning loops",
+          "HILT & Guardrails AI",
+          "Output validation & Retries"
+        ]
+      },
+      {
+        "id": "prompt",
+        "icon": "fas fa-comment-dots",
+        "title": "Prompt Engineering",
+        "color": "#f59e0b",
+        "items": [
+          "Few-shot prompting",
+          "Chain-of-thought reasoning",
+          "Structured output generation",
+          "Tool-use prompting",
+          "System prompt design",
+          "Output parsing"
+        ]
+      },
+      {
+        "id": "rag",
+        "icon": "fas fa-database",
+        "title": "RAG & Retrieval",
+        "color": "#34d399",
+        "items": [
+          "End-to-end RAG pipelines",
+          "PDF parsing & chunking strategies",
+          "Fixed-size / Recursive / Sentence-level chunking",
+          "Structure-aware chunking",
+          "Vertex AI Embeddings",
+          "RAGAS evaluation"
+        ]
+      },
+      {
+        "id": "frameworks",
+        "icon": "fas fa-layer-group",
+        "title": "Frameworks & Tools",
+        "color": "#fb923c",
+        "items": [
+          "LangChain",
+          "LangGraph",
+          "MCP Servers",
+          "Claude Code",
+          "Angular Signals integration",
+          "Optimistic UI patterns"
+        ]
+      }
     ]
   },
   "experience": {
     "title": "Certifications",
+    "sectionNumber": "04",
     "items": [
       {
         "title": "GitHub Foundations",
-        "url": "https://www.credly.com/badges/b184c9cb-2f6a-45aa-b085-823be663b434"
+        "url": "https://www.credly.com/badges/b184c9cb-2f6a-45aa-b085-823be663b434",
+        "icon": "fab fa-github",
+        "dateEarned": "2024"
       },
       {
         "title": "GitHub Actions",
-        "url": "https://www.credly.com/badges/e9bd1ed8-448c-4c7f-81a3-bb579c478441"
+        "url": "https://www.credly.com/badges/e9bd1ed8-448c-4c7f-81a3-bb579c478441",
+        "icon": "fas fa-cogs",
+        "dateEarned": "2024"
       },
       {
         "title": "GitHub Administration",
-        "url": "https://www.credly.com/badges/f831ce43-177a-49f6-ba69-f89c5d2aa766"
+        "url": "https://www.credly.com/badges/f831ce43-177a-49f6-ba69-f89c5d2aa766",
+        "icon": "fas fa-shield-alt",
+        "dateEarned": "2024"
       },
       {
         "title": "GitHub Copilot",
-        "url": "https://www.credly.com/badges/fff6ab79-3c04-4e2e-b5ab-e8c198ad28b6"
+        "url": "https://www.credly.com/badges/fff6ab79-3c04-4e2e-b5ab-e8c198ad28b6",
+        "icon": "fas fa-robot",
+        "dateEarned": "2024"
       },
       {
-        "title": "Microsoft Fundamentals",
-        "url": "https://learn.microsoft.com/en-us/users/suriyas-1116/credentials/b7d4c72770f0757b"
+        "title": "Microsoft Azure Fundamentals",
+        "url": "https://learn.microsoft.com/en-us/users/suriyas-1116/credentials/b7d4c72770f0757b",
+        "icon": "fab fa-microsoft",
+        "dateEarned": "2024"
       },
       {
-        "title": "AWS Certified Cloud Practitionar",
-        "url": "https://www.credly.com/badges/f4f4190e-5214-4e59-8051-8c8adfb372f0"
+        "title": "AWS Certified Cloud Practitioner",
+        "url": "https://www.credly.com/badges/f4f4190e-5214-4e59-8051-8c8adfb372f0",
+        "icon": "fab fa-aws",
+        "dateEarned": "2024"
+      }
+    ]
+  },
+  "highlights": {
+    "title": "Technical Highlights",
+    "sectionNumber": "05",
+    "items": [
+      {
+        "icon": "fas fa-sitemap",
+        "color": "#a78bfa",
+        "title": "Multi-Agent AI Orchestration",
+        "description": "Designed hierarchical multi-agent systems using LangGraph with sequential, hub-and-spoke, and ReAct patterns. Integrated Guardrails AI and HILT for output validation and retry logic."
+      },
+      {
+        "icon": "fas fa-database",
+        "color": "#34d399",
+        "title": "Production RAG Pipelines",
+        "description": "Built end-to-end RAG systems with PDF parsing, fixed-size, recursive, and sentence-level chunking. Used Vertex AI Embeddings and RAGAS framework for quality evaluation."
+      },
+      {
+        "icon": "fas fa-bolt",
+        "color": "#f59e0b",
+        "title": "Real-time LLM Streaming",
+        "description": "Implemented Server-Sent Events (SSE) for real-time AI response streaming with optimistic UI update patterns in Angular, delivering a seamless user experience."
+      },
+      {
+        "icon": "fab fa-angular",
+        "color": "#fb923c",
+        "title": "Enterprise Angular Applications",
+        "description": "5.8+ years building scalable Angular 17+ applications with NgRx state management, RxJS reactive patterns, Ionic/Capacitor mobile, and Spring Boot microservices."
+      },
+      {
+        "icon": "fas fa-cloud",
+        "color": "#64ffda",
+        "title": "Multi-Cloud AI Deployments",
+        "description": "Architected and deployed AI-powered solutions across GCP (Vertex AI, Cloud Run), AWS (Bedrock, Lambda, API Gateway), and Azure (OpenAI Service, Functions)."
+      },
+      {
+        "icon": "fas fa-brain",
+        "color": "#a78bfa",
+        "title": "LLM Integration & Tool-Use",
+        "description": "Integrated Claude API, Vertex AI Gemini, and Azure OpenAI with complex tool-use orchestration, multi-step reasoning, and structured output generation."
       }
     ]
   },
   "projects": {
-    "title": "Featured Projects",
-    "githubUrl": "https://github.com/ssuriya1",
-    "viewAllText": "View All Projects"
+    "githubUsername": "ssuriya1",
+    "githubUrl": "https://github.com/ssuriya1"
   },
   "contact": {
     "title": "Let's Connect",
+    "sectionNumber": "06",
+    "tagline": "Open to new opportunities, collaborations, and interesting AI/engineering challenges.",
     "social": [
       {
         "name": "LinkedIn",
         "url": "https://www.linkedin.com/in/ssuriya1/",
         "icon": "fab fa-linkedin"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/ssuriya1",
+        "icon": "fab fa-github"
+      },
+      {
+        "name": "Email",
+        "url": "mailto:contactsuriyas@gmail.com",
+        "icon": "fas fa-envelope"
       }
     ],
     "form": {
       "fields": [
-        { "name": "name", "type": "text", "placeholder": "Your Name", "required": true },
-        { "name": "email", "type": "email", "placeholder": "Your Email", "required": true },
+        { "name": "name",    "type": "text",     "placeholder": "Your Name",    "required": true },
+        { "name": "email",   "type": "email",    "placeholder": "Your Email",   "required": true },
         { "name": "message", "type": "textarea", "placeholder": "Your Message", "required": true }
       ],
       "submitText": "Send Message",
@@ -91,7 +270,7 @@
   },
   "settings": {
     "typingSpeed": 100,
-    "typingPause": 3000,
+    "typingPause": 2500,
     "theme": {
       "primaryColor": "#0a192f",
       "secondaryColor": "#64ffda",

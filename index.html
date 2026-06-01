@@ -3,34 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Frontend Developer Portfolio</title>
+    <title>Suriya S — GenAI / Agentic AI Engineer</title>
+    <meta name="description" content="Suriya S — GenAI / Agentic AI Engineer & Full Stack Developer with 5+ years of experience in LLMs, multi-agent systems, RAG pipelines, Angular, and multi-cloud platforms." />
+    <meta name="keywords" content="GenAI, Agentic AI, LangChain, LangGraph, Claude API, Vertex AI, Angular, Full Stack Developer, RAG, Multi-Agent" />
+    <meta name="author" content="Suriya S" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Suriya S — GenAI / Agentic AI Engineer" />
+    <meta property="og:description" content="GenAI / Agentic AI Engineer & Full Stack Developer specializing in multi-agent orchestration, RAG pipelines, and Angular." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ssuriya1.github.io" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Suriya S — GenAI / Agentic AI Engineer" />
+    <meta name="twitter:description" content="GenAI / Agentic AI Engineer & Full Stack Developer with 5+ years of experience." />
+
+    <link rel="canonical" href="https://ssuriya1.github.io/" />
     <link rel="stylesheet" href="css/main.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Suriya S",
+      "url": "https://ssuriya1.github.io",
+      "jobTitle": "GenAI / Agentic AI Engineer",
+      "description": "GenAI / Agentic AI Engineer and Full Stack Developer with 5+ years of experience in multi-agent systems, RAG pipelines, Angular, and multi-cloud platforms.",
+      "knowsAbout": [
+        "Generative AI", "Agentic AI", "LangChain", "LangGraph",
+        "Claude API", "Vertex AI", "RAG Pipelines", "Multi-Agent Systems",
+        "Angular", "TypeScript", "AWS", "GCP", "Azure"
+      ],
+      "sameAs": [
+        "https://www.linkedin.com/in/ssuriya1/",
+        "https://github.com/ssuriya1"
+      ]
+    }
+    </script>
   </head>
   <body>
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Custom cursor -->
     <div class="cursor-dot" data-cursor-dot></div>
     <div class="cursor-outline" data-cursor-outline></div>
 
+    <!-- Navigation -->
     <nav class="nav">
       <div class="nav-container">
         <div class="nav-logo">
-          <span class="logo-text"> </span>
+          <span class="logo-text"></span>
         </div>
-        <ul class="nav-menu"></ul>
-        <button class="theme-toggle" id="theme-toggle">
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        <ul class="nav-menu" id="nav-menu"></ul>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <i class="fas fa-moon"></i>
           <span>Dark</span>
         </button>
       </div>
     </nav>
 
+    <!-- ── HERO ── -->
     <section id="home" class="hero">
       <div class="hero-bg">
         <div class="floating-shapes">
@@ -42,16 +84,28 @@
       </div>
       <div class="hero-content">
         <div class="hero-text">
+          <div class="hero-badge">
+            <i class="fas fa-brain"></i>
+            <span>GenAI / Agentic AI Engineer</span>
+          </div>
           <h1 class="hero-title"></h1>
-          <p class="hero-subtitle">
-            Passionate about building scalable web applications and cloud
-            solutions with modern technologies.
-          </p>
+          <p class="hero-subtitle"></p>
+          <div class="hero-typing">
+            <span class="typing-label">I build &nbsp;</span>
+            <span class="typing-container">
+              <span class="typing-text"></span>
+            </span>
+          </div>
           <div class="hero-buttons">
-            <a href="#" id="view-work-btn" class="btn btn-primary">View Work</a>
-            <a href="#" id="get-in-touch-btn" class="btn btn-outline"
-              >Get In Touch</a
-            >
+            <a href="#" id="view-work-btn" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-github"></i> View GitHub
+            </a>
+            <a href="#" id="download-resume-btn" class="btn btn-outline">
+              <i class="fas fa-download"></i> Resume
+            </a>
+            <a href="#" id="get-in-touch-btn" class="btn btn-ghost">
+              <i class="fas fa-envelope"></i> Contact
+            </a>
           </div>
         </div>
         <div class="hero-visual">
@@ -74,6 +128,7 @@
       </div>
     </section>
 
+    <!-- ── ABOUT ── -->
     <section id="about" class="about">
       <div class="container">
         <div class="section-header">
@@ -91,6 +146,7 @@
       </div>
     </section>
 
+    <!-- ── SKILLS ── -->
     <section id="skills" class="skills">
       <div class="parallax-bg">
         <div class="parallax-layer layer-1"></div>
@@ -106,18 +162,47 @@
       </div>
     </section>
 
+    <!-- ── AI & GENAI ── -->
+    <section id="ai-skills" class="ai-skills">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-number">03</span>
+          <h2 class="section-title">AI &amp; GenAI Expertise</h2>
+          <p class="section-subtitle">Deep specialization in building production-grade intelligent systems</p>
+        </div>
+        <div class="ai-skills-grid" id="ai-skills-grid"></div>
+      </div>
+    </section>
+
+    <!-- ── CERTIFICATIONS ── -->
+    <section id="certifications" class="experience">
+      <!-- Populated by main.js -->
+    </section>
+
+    <!-- ── TECHNICAL HIGHLIGHTS ── -->
+    <section id="highlights" class="highlights">
+      <!-- Populated by main.js -->
+    </section>
+
+    <!-- ── CONTACT ── -->
     <section id="contact" class="contact">
       <div class="container">
         <div class="section-header">
-          <span class="section-number">04</span>
-          <h2 class="section-title">Let's Work Together</h2>
+          <span class="section-number">06</span>
+          <h2 class="section-title">Let's Connect</h2>
         </div>
         <div class="contact-content">
           <div class="contact-info"></div>
-          <form class="contact-form"></form>
+          <form class="contact-form" id="contact-form" novalidate></form>
         </div>
       </div>
     </section>
-    <script src="js/main.js"></script>
+
+    <!-- Back to top -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script type="module" src="js/main.js"></script>
   </body>
 </html>

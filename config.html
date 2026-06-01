@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Config Manager</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg:     #0a192f;
+      --bg2:    #112240;
+      --accent: #64ffda;
+      --text:   #ccd6f6;
+      --text2:  #8892b0;
+      --muted:  #495670;
+      --border: rgba(100,255,218,0.15);
+      --bh:     rgba(100,255,218,0.35);
+      --radius: 10px;
+      --r-lg:   14px;
+      --t:      0.22s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+    h1 { text-align: center; color: var(--accent); font-size: clamp(1.5rem, 4vw, 2.2rem); margin-bottom: 0.4rem; }
+    .subtitle { text-align: center; color: var(--text2); font-size: 0.875rem; margin-bottom: 2rem; }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* ── Auth overlay ─────────────────────── */
+    #auth-overlay {
+      position: fixed; inset: 0;
+      background: rgba(10,25,47,0.97);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+    #auth-overlay.hidden { opacity: 0; pointer-events: none; }
+
+    .auth-card {
+      background: var(--bg2);
+      border: 1px solid var(--bh);
+      border-radius: var(--r-lg);
+      padding: 2.5rem;
+      width: min(420px, 92vw);
+      box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+    }
+    .auth-card h2 { color: var(--accent); margin-bottom: 0.4rem; font-size: 1.3rem; }
+    .auth-card p  { color: var(--text2); font-size: 0.875rem; margin-bottom: 1.75rem; line-height: 1.6; }
+
+    .auth-error {
+      color: #f87171; font-size: 0.85rem; margin-top: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.25);
+      border-radius: 6px;
+      display: none;
+    }
+
+    /* User info bar */
+    #user-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.6rem 1rem;
+      background: rgba(100,255,218,0.06);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text2);
+    }
+    #user-bar.visible { display: flex; }
+    #user-bar .user-email { color: var(--accent); font-weight: 600; }
+
+    /* ── Status bar ──────────────────────── */
+    #status-bar {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1.25rem;
+      font-size: 0.875rem;
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    #status-bar.success { display: flex; background: rgba(52,211,153,0.1);  border: 1px solid rgba(52,211,153,0.3);  color: #34d399; }
+    #status-bar.error   { display: flex; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: #f87171; }
+    #status-bar.info    { display: flex; background: rgba(100,255,218,0.06);border: 1px solid var(--border);          color: var(--accent); }
+
+    /* ── Cards ───────────────────────────── */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.75rem;
+      margin-bottom: 1.25rem;
+      transition: border-color var(--t);
+    }
+    .card:hover { border-color: var(--bh); }
+    .card-title {
+      display: flex; align-items: center; gap: 0.7rem;
+      font-size: 0.95rem; font-weight: 700; color: var(--accent);
+      margin-bottom: 1.5rem; cursor: pointer; user-select: none;
+    }
+    .card-title .toggle-icon { margin-left: auto; color: var(--text2); transition: transform var(--t); }
+    .card-body.collapsed { display: none; }
+
+    /* ── Form ────────────────────────────── */
+    .form-group { margin-bottom: 1rem; }
+    label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: var(--text2); margin-bottom: 0.35rem;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    input, textarea, select {
+      width: 100%; padding: 0.7rem 0.9rem;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); color: var(--text);
+      font-family: inherit; font-size: 0.9rem;
+      transition: border-color var(--t); outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+    textarea { min-height: 110px; resize: vertical; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 580px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Buttons ─────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.65rem 1.2rem; border-radius: var(--radius);
+      font-weight: 600; font-size: 0.875rem;
+      border: none; cursor: pointer; transition: all var(--t);
+    }
+    .btn-primary  { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover { opacity: 0.87; transform: translateY(-1px); }
+    .btn-outline  { border: 1.5px solid var(--accent); color: var(--accent); background: transparent; }
+    .btn-outline:hover  { background: rgba(100,255,218,0.1); }
+    .btn-danger   { border: 1.5px solid #f87171; color: #f87171; background: transparent; font-size: 0.78rem; padding: 0.35rem 0.7rem; }
+    .btn-danger:hover { background: rgba(248,113,113,0.1); }
+    .btn-ghost    { border: 1.5px solid var(--border); color: var(--text2); background: transparent; font-size: 0.8rem; }
+    .btn-ghost:hover { border-color: #f87171; color: #f87171; }
+    .btn-sm { padding: 0.45rem 0.85rem; font-size: 0.8rem; }
+    .btn:disabled { opacity: 0.45; pointer-events: none; }
+
+    /* ── List items ──────────────────────── */
+    .list-item {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.1rem;
+      margin-bottom: 0.7rem;
+    }
+    .list-item-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .list-item-title { font-weight: 600; color: var(--text); font-size: 0.875rem; }
+    .add-btn-row { margin-top: 0.6rem; }
+
+    /* ── Action strip ────────────────────── */
+    .action-strip {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      justify-content: flex-end;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── JSON preview ────────────────────── */
+    .json-preview {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem;
+      font-family: 'Fira Code', monospace; font-size: 0.78rem;
+      line-height: 1.7; max-height: 420px; overflow-y: auto;
+      white-space: pre; color: var(--text2);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .fa-spin { animation: spin 1s linear infinite; }
+  </style>
+</head>
+<body>
+
+<!-- ── Login Overlay ──────────────────────────────────────── -->
+<div id="auth-overlay">
+  <div class="auth-card">
+    <h2><i class="fas fa-lock"></i> Admin Login</h2>
+    <p>Sign in with your Firebase credentials to manage portfolio content. Changes publish live to the portfolio instantly.</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="your@email.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password">
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <button class="btn btn-primary" id="login-btn" style="width:100%;margin-top:1rem" onclick="doLogin()">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </button>
+    <p style="font-size:0.78rem;color:var(--muted);margin-top:1rem;text-align:center">
+      Register your email/password in Firebase Console → Authentication → Users
+    </p>
+  </div>
+</div>
+
+<!-- ── Main App ───────────────────────────────────────────── -->
+<div class="container">
+  <h1><i class="fas fa-sliders-h"></i> Config Manager</h1>
+  <p class="subtitle">Changes save to Firestore and reflect live on the portfolio immediately.</p>
+
+  <!-- User bar -->
+  <div id="user-bar">
+    <span>Signed in as <span class="user-email" id="user-email-display"></span></span>
+    <button class="btn btn-ghost btn-sm" onclick="doLogout()">
+      <i class="fas fa-sign-out-alt"></i> Sign Out
+    </button>
+  </div>
+
+  <div id="status-bar"></div>
+
+  <!-- Personal -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fas fa-user"></i> Personal Information
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body">
+      <div class="two-col">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="p-name" placeholder="Suriya S">
+        </div>
+        <div class="form-group">
+          <label>Logo / Initials</label>
+          <input type="text" id="p-logo" placeholder="SS" maxlength="4">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Hero Subtitle</label>
+        <textarea id="p-subtitle" rows="2" placeholder="Short bio shown under your name in the hero section"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Typing Texts (comma-separated)</label>
+        <input type="text" id="p-typing" placeholder="GenAI / Agentic AI Engineer, Full Stack Developer">
+      </div>
+      <div class="form-group">
+        <label>Resume File (relative path)</label>
+        <input type="text" id="p-resume" placeholder="Suriya_Resume_Updated.docx">
+      </div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fas fa-info-circle"></i> About Description
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body collapsed">
+      <div class="form-group">
+        <label>Bio Text</label>
+        <textarea id="about-desc" style="min-height:140px" placeholder="Your about section text…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fas fa-code"></i> Skills Categories
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body collapsed">
+      <p style="color:var(--text2);font-size:0.83rem;margin-bottom:0.75rem">Each line = one skills category with comma-separated skills.</p>
+      <div id="skills-container"></div>
+      <div class="add-btn-row">
+        <button class="btn btn-outline btn-sm" onclick="addSkillCategory()">
+          <i class="fas fa-plus"></i> Add Category
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Skills -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fas fa-brain"></i> AI &amp; GenAI Expertise
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body collapsed">
+      <p style="color:var(--text2);font-size:0.83rem;margin-bottom:0.75rem">Each entry becomes an AI skills card. Items are comma-separated.</p>
+      <div id="ai-container"></div>
+      <div class="add-btn-row">
+        <button class="btn btn-outline btn-sm" onclick="addAICategory()">
+          <i class="fas fa-plus"></i> Add AI Category
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certifications -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fas fa-certificate"></i> Certifications
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body collapsed">
+      <div id="cert-container"></div>
+      <div class="add-btn-row">
+        <button class="btn btn-outline btn-sm" onclick="addCert()">
+          <i class="fas fa-plus"></i> Add Certification
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects / GitHub -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fab fa-github"></i> GitHub / Projects
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body collapsed">
+      <div class="two-col">
+        <div class="form-group">
+          <label>GitHub Username</label>
+          <input type="text" id="gh-user" placeholder="ssuriya1">
+        </div>
+        <div class="form-group">
+          <label>Max Projects Displayed</label>
+          <input type="number" id="gh-max" min="1" max="12" value="4">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact / Social -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fas fa-address-card"></i> Contact &amp; Social Links
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body collapsed">
+      <div class="form-group">
+        <label>Contact Tagline</label>
+        <textarea id="contact-tagline" rows="2" placeholder="Short message shown above social links"></textarea>
+      </div>
+      <div id="social-container"></div>
+      <div class="add-btn-row">
+        <button class="btn btn-outline btn-sm" onclick="addSocial()">
+          <i class="fas fa-plus"></i> Add Social Link
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JSON Preview / Export -->
+  <div class="card">
+    <div class="card-title" onclick="toggleCard(this)">
+      <i class="fas fa-code"></i> JSON Preview &amp; Export
+      <i class="fas fa-chevron-down toggle-icon"></i>
+    </div>
+    <div class="card-body collapsed">
+      <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap">
+        <button class="btn btn-outline btn-sm" onclick="refreshPreview()">
+          <i class="fas fa-sync"></i> Refresh
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="downloadConfig()">
+          <i class="fas fa-download"></i> Download config.json
+        </button>
+      </div>
+      <pre id="json-preview" class="json-preview">Click Refresh to preview…</pre>
+    </div>
+  </div>
+
+  <!-- Action strip -->
+  <div class="action-strip">
+    <button class="btn btn-outline" onclick="resetToFirestore()">
+      <i class="fas fa-undo"></i> Reset to Saved
+    </button>
+    <button class="btn btn-primary" id="save-btn" onclick="saveConfig()">
+      <i class="fas fa-cloud-upload-alt"></i> Save &amp; Publish
+    </button>
+  </div>
+</div>
+
+<script type="module">
+import { db, auth } from './firebase-config.js';
+import {
+  doc, getDoc, setDoc
+} from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js';
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js';
+
+/* ── State ─────────────────────────────────────────── */
+let currentConfig = {};
+const CONFIG_DOC  = 'main';
+
+/* ── Auth state watcher ────────────────────────────── */
+onAuthStateChanged(auth, user => {
+  if (user) {
+    hideOverlay();
+    document.getElementById('user-email-display').textContent = user.email;
+    document.getElementById('user-bar').classList.add('visible');
+    loadAndPopulate();
+  } else {
+    showOverlay();
+    document.getElementById('user-bar').classList.remove('visible');
+  }
+});
+
+/* ── Login ─────────────────────────────────────────── */
+window.doLogin = async function () {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-password').value;
+  const errEl = document.getElementById('auth-error');
+  const btn   = document.getElementById('login-btn');
+
+  errEl.style.display = 'none';
+  if (!email || !pass) { showAuthErr('Please enter email and password.'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in…';
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch (err) {
+    const msgs = {
+      'auth/invalid-credential':  'Incorrect email or password.',
+      'auth/user-not-found':      'No account found for this email.',
+      'auth/wrong-password':      'Incorrect password.',
+      'auth/too-many-requests':   'Too many attempts. Try again later.',
+      'auth/invalid-email':       'Invalid email address.',
+    };
+    showAuthErr(msgs[err.code] || err.message);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+  }
+};
+
+window.doLogout = async function () {
+  await signOut(auth);
+};
+
+/* Keyboard shortcuts in login form */
+document.getElementById('login-password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.doLogin();
+});
+document.getElementById('login-email').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('login-password').focus();
+});
+
+function showOverlay() { document.getElementById('auth-overlay').classList.remove('hidden'); }
+function hideOverlay() { document.getElementById('auth-overlay').classList.add('hidden'); }
+function showAuthErr(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+/* ── Load config (Firestore first, fallback config.json) ─── */
+async function loadAndPopulate() {
+  showStatus('info', '<i class="fas fa-spinner fa-spin"></i> Loading config…');
+  try {
+    const snap = await getDoc(doc(db, 'portfolioConfig', CONFIG_DOC));
+    if (snap.exists()) {
+      currentConfig = snap.data();
+    } else {
+      const res = await fetch('config.json');
+      currentConfig = await res.json();
+    }
+    populateForm();
+    showStatus('success', '✓ Config loaded.');
+    setTimeout(clearStatus, 3000);
+  } catch (err) {
+    showStatus('error', 'Load failed: ' + err.message);
+  }
+}
+
+window.resetToFirestore = function () { loadAndPopulate(); };
+
+/* ── Populate form ─────────────────────────────────── */
+function populateForm() {
+  const p = currentConfig.personal || {};
+  set('p-name',       p.name || '');
+  set('p-logo',       p.logo || '');
+  set('p-subtitle',   p.subtitle || '');
+  set('p-typing',     (p.typingTexts || []).join(', '));
+  set('p-resume',     p.resumeUrl || '');
+  set('about-desc',   currentConfig.about?.description || '');
+  set('contact-tagline', currentConfig.contact?.tagline || '');
+  set('gh-user',      currentConfig.projects?.githubUsername || '');
+  set('gh-max',       currentConfig.projects?.maxDisplay || 4);
+  buildSkills();
+  buildAICats();
+  buildCerts();
+  buildSocial();
+}
+
+/* ── Skills ────────────────────────────────────────── */
+function buildSkills() {
+  const c = document.getElementById('skills-container');
+  c.innerHTML = '';
+  Object.entries(currentConfig.about?.skills || {}).forEach(([k,v]) => addSkillCat(k, v));
+}
+window.addSkillCategory = function () { addSkillCat('', []); };
+function addSkillCat(cat, items) {
+  const c = document.getElementById('skills-container');
+  const d = document.createElement('div'); d.className = 'list-item';
+  d.innerHTML = `
+    <div class="list-item-header">
+      <input type="text" class="sk-cat" value="${x(cat)}" placeholder="Category Name" style="flex:1;margin-right:0.75rem">
+      <button class="btn btn-danger" onclick="this.closest('.list-item').remove()"><i class="fas fa-trash"></i></button>
+    </div>
+    <div class="form-group">
+      <label>Skills (comma-separated)</label>
+      <input type="text" class="sk-items" value="${x(items.join(', '))}" placeholder="Angular, TypeScript…">
+    </div>`;
+  c.appendChild(d);
+}
+
+/* ── AI Categories ─────────────────────────────────── */
+const AI_ICONS = [
+  'fas fa-microchip','fas fa-sitemap','fas fa-comment-dots','fas fa-database',
+  'fas fa-layer-group','fas fa-brain','fas fa-robot','fas fa-network-wired',
+  'fas fa-stream','fas fa-cogs',
+];
+function buildAICats() {
+  const c = document.getElementById('ai-container'); c.innerHTML = '';
+  (currentConfig.aiSkills?.categories || []).forEach(cat => addAICat(cat));
+}
+window.addAICategory = function () {
+  addAICat({ id:'new', icon:'fas fa-brain', title:'', color:'#64ffda', items:[] });
+};
+function addAICat(cat) {
+  const c = document.getElementById('ai-container');
+  const d = document.createElement('div'); d.className = 'list-item';
+  d.innerHTML = `
+    <div class="list-item-header">
+      <div style="display:flex;align-items:center;gap:0.6rem;flex:1">
+        <input type="color" class="ai-color" value="${cat.color||'#64ffda'}"
+               style="width:34px;height:34px;border:none;background:none;cursor:pointer;padding:0;border-radius:50%">
+        <input type="text" class="ai-title" value="${x(cat.title)}" placeholder="Category Title" style="flex:1">
+      </div>
+      <button class="btn btn-danger" onclick="this.closest('.list-item').remove()"><i class="fas fa-trash"></i></button>
+    </div>
+    <div class="two-col" style="margin-bottom:0.75rem">
+      <div class="form-group">
+        <label>Icon (Font Awesome)</label>
+        <select class="ai-icon">
+          ${AI_ICONS.map(ic=>`<option value="${ic}" ${cat.icon===ic?'selected':''}>${ic}</option>`).join('')}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>ID (slug)</label>
+        <input type="text" class="ai-id" value="${x(cat.id||'')}" placeholder="llm">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Items (comma-separated)</label>
+      <textarea class="ai-items" rows="3">${x((cat.items||[]).join(', '))}</textarea>
+    </div>`;
+  c.appendChild(d);
+}
+
+/* ── Certifications ────────────────────────────────── */
+function buildCerts() {
+  const c = document.getElementById('cert-container'); c.innerHTML = '';
+  (currentConfig.experience?.items || []).forEach(cert => addCertItem(cert));
+}
+window.addCert = function () {
+  addCertItem({ title:'', url:'', icon:'fas fa-certificate', dateEarned:'' });
+};
+function addCertItem(cert) {
+  const c = document.getElementById('cert-container');
+  const d = document.createElement('div'); d.className = 'list-item';
+  d.innerHTML = `
+    <div class="list-item-header">
+      <span class="list-item-title">${x(cert.title)||'New Certification'}</span>
+      <button class="btn btn-danger" onclick="this.closest('.list-item').remove()"><i class="fas fa-trash"></i></button>
+    </div>
+    <div class="two-col">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="cert-title" value="${x(cert.title)}" placeholder="AWS Certified…"
+          oninput="this.closest('.list-item').querySelector('.list-item-title').textContent=this.value||'New Certification'">
+      </div>
+      <div class="form-group">
+        <label>Year</label>
+        <input type="text" class="cert-date" value="${x(cert.dateEarned||'')}" placeholder="2024">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Credential URL</label>
+      <input type="url" class="cert-url" value="${x(cert.url)}" placeholder="https://credly.com/…">
+    </div>
+    <div class="form-group">
+      <label>Icon (Font Awesome)</label>
+      <input type="text" class="cert-icon" value="${x(cert.icon||'fas fa-certificate')}" placeholder="fab fa-aws">
+    </div>`;
+  c.appendChild(d);
+}
+
+/* ── Social Links ──────────────────────────────────── */
+function buildSocial() {
+  const c = document.getElementById('social-container'); c.innerHTML = '';
+  (currentConfig.contact?.social || []).forEach(s => addSocialItem(s));
+}
+window.addSocial = function () {
+  addSocialItem({ name:'', url:'', icon:'fab fa-linkedin' });
+};
+function addSocialItem(s) {
+  const c = document.getElementById('social-container');
+  const d = document.createElement('div'); d.className = 'list-item';
+  d.innerHTML = `
+    <div class="list-item-header">
+      <span class="list-item-title">${x(s.name)||'New Link'}</span>
+      <button class="btn btn-danger" onclick="this.closest('.list-item').remove()"><i class="fas fa-trash"></i></button>
+    </div>
+    <div class="two-col">
+      <div class="form-group">
+        <label>Platform Name</label>
+        <input type="text" class="soc-name" value="${x(s.name)}" placeholder="LinkedIn"
+          oninput="this.closest('.list-item').querySelector('.list-item-title').textContent=this.value||'New Link'">
+      </div>
+      <div class="form-group">
+        <label>Icon Class</label>
+        <input type="text" class="soc-icon" value="${x(s.icon)}" placeholder="fab fa-linkedin">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>URL</label>
+      <input type="url" class="soc-url" value="${x(s.url)}" placeholder="https://linkedin.com/in/…">
+    </div>`;
+  c.appendChild(d);
+}
+
+/* ── Build config from form ────────────────────────── */
+function buildConfig() {
+  const skills = {};
+  document.querySelectorAll('#skills-container .list-item').forEach(el => {
+    const cat   = el.querySelector('.sk-cat').value.trim();
+    const items = el.querySelector('.sk-items').value.split(',').map(s=>s.trim()).filter(Boolean);
+    if (cat) skills[cat] = items;
+  });
+
+  const aiCats = [...document.querySelectorAll('#ai-container .list-item')].map(el => ({
+    id:    el.querySelector('.ai-id').value.trim(),
+    icon:  el.querySelector('.ai-icon').value,
+    title: el.querySelector('.ai-title').value.trim(),
+    color: el.querySelector('.ai-color').value,
+    items: el.querySelector('.ai-items').value.split(',').map(s=>s.trim()).filter(Boolean),
+  })).filter(c => c.title);
+
+  const certs = [...document.querySelectorAll('#cert-container .list-item')].map(el => ({
+    title:      el.querySelector('.cert-title').value.trim(),
+    url:        el.querySelector('.cert-url').value.trim(),
+    icon:       el.querySelector('.cert-icon').value.trim() || 'fas fa-certificate',
+    dateEarned: el.querySelector('.cert-date').value.trim(),
+  })).filter(c => c.title);
+
+  const social = [...document.querySelectorAll('#social-container .list-item')].map(el => ({
+    name: el.querySelector('.soc-name').value.trim(),
+    url:  el.querySelector('.soc-url').value.trim(),
+    icon: el.querySelector('.soc-icon').value.trim(),
+  })).filter(s => s.name && s.url);
+
+  const ghUser = g('gh-user');
+
+  return {
+    personal: {
+      name:        g('p-name'),
+      logo:        g('p-logo'),
+      title:       'Portfolio',
+      subtitle:    g('p-subtitle'),
+      typingTexts: g('p-typing').split(',').map(s=>s.trim()).filter(Boolean),
+      resumeUrl:   g('p-resume'),
+    },
+    navigation: currentConfig.navigation || [
+      { name:'Home',           href:'#home' },
+      { name:'About',          href:'#about' },
+      { name:'Skills',         href:'#skills' },
+      { name:'AI & GenAI',     href:'#ai-skills' },
+      { name:'Certifications', href:'#certifications' },
+      { name:'Projects',       href:'#projects' },
+      { name:'Contact',        href:'#contact' },
+    ],
+    about: {
+      title: 'About Me',
+      description: g('about-desc'),
+      highlights: currentConfig.about?.highlights || [
+        { label:'Years Experience', value:5, suffix:'+' },
+        { label:'Certifications',   value:certs.length },
+        { label:'Technologies',     countFromSkills:true },
+      ],
+      skills,
+      techOrbit: currentConfig.about?.techOrbit || [],
+    },
+    aiSkills: {
+      title: 'AI & GenAI Expertise',
+      sectionNumber: '03',
+      categories: aiCats,
+    },
+    experience: {
+      title: 'Certifications',
+      sectionNumber: '04',
+      items: certs,
+    },
+    projects: {
+      title:          'Featured Projects',
+      sectionNumber:  '05',
+      githubUsername: ghUser,
+      githubUrl:      `https://github.com/${ghUser}`,
+      viewAllText:    'View All on GitHub',
+      maxDisplay:     parseInt(g('gh-max') || '4', 10),
+    },
+    contact: {
+      title:         "Let's Connect",
+      sectionNumber: '06',
+      tagline:       g('contact-tagline'),
+      social,
+      form: currentConfig.contact?.form || {
+        fields: [
+          { name:'name',    type:'text',     placeholder:'Your Name',    required:true },
+          { name:'email',   type:'email',    placeholder:'Your Email',   required:true },
+          { name:'message', type:'textarea', placeholder:'Your Message', required:true },
+        ],
+        submitText: 'Send Message',
+        submitIcon: 'fas fa-paper-plane',
+      },
+    },
+    settings: currentConfig.settings || {
+      typingSpeed: 100, typingPause: 2500,
+      theme: { primaryColor:'#0a192f', secondaryColor:'#64ffda', accentColor:'#64ffda' },
+    },
+    _updatedAt: new Date().toISOString(),
+  };
+}
+
+/* ── Save to Firestore ─────────────────────────────── */
+window.saveConfig = async function () {
+  if (!auth.currentUser) { showStatus('error', 'Not signed in.'); return; }
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving…';
+  showStatus('info', '<i class="fas fa-spinner fa-spin"></i> Saving to Firestore…');
+  try {
+    const cfg = buildConfig();
+    await setDoc(doc(db, 'portfolioConfig', CONFIG_DOC), cfg);
+    currentConfig = cfg;
+    showStatus('success', '✓ Saved! Portfolio reflects changes immediately.');
+    setTimeout(clearStatus, 6000);
+  } catch (err) {
+    showStatus('error', 'Save failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Save & Publish';
+  }
+};
+
+/* ── JSON preview / download ───────────────────────── */
+window.refreshPreview = function () {
+  const pre = document.getElementById('json-preview');
+  try { pre.textContent = JSON.stringify(buildConfig(), null, 2); }
+  catch { pre.textContent = 'Error building config'; }
+};
+
+window.downloadConfig = function () {
+  const blob = new Blob([JSON.stringify(buildConfig(), null, 2)], { type:'application/json' });
+  const a    = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(blob), download:'config.json'
+  });
+  a.click(); URL.revokeObjectURL(a.href);
+};
+
+/* ── UI helpers ────────────────────────────────────── */
+window.toggleCard = function (titleEl) {
+  const body = titleEl.nextElementSibling;
+  const icon = titleEl.querySelector('.toggle-icon');
+  body.classList.toggle('collapsed');
+  icon.style.transform = body.classList.contains('collapsed') ? '' : 'rotate(180deg)';
+};
+
+function showStatus(type, msg) {
+  const b = document.getElementById('status-bar');
+  b.className = type; b.innerHTML = msg;
+}
+function clearStatus() {
+  const b = document.getElementById('status-bar');
+  b.className = ''; b.innerHTML = '';
+}
+
+function set(id, val) { const el=document.getElementById(id); if(el) el.value=val; }
+function g(id)        { return (document.getElementById(id)?.value || '').trim(); }
+function x(s)         {
+  return String(s||'')
+    .replace(/&/g,'&amp;').replace(/"/g,'&quot;')
+    .replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>

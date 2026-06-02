@@ -621,8 +621,16 @@ section {
   box-shadow: 0 0 20px var(--shadow-glow);
 }
 
+.stat-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1px;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
 .stat-number {
-  display: block;
   font-size: 2rem;
   font-weight: 800;
   color: var(--secondary);
@@ -630,7 +638,7 @@ section {
   line-height: 1;
 }
 
-.stat-suffix { font-size: 1.5rem; color: var(--secondary); }
+.stat-suffix { font-size: 1.5rem; color: var(--secondary); line-height: 1; }
 
 .stat-label {
   display: block;
@@ -638,7 +646,6 @@ section {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin-top: 0.4rem;
   white-space: nowrap;
 }
 
@@ -686,6 +693,8 @@ section {
 
 .tech-icon {
   position: absolute;
+  top: calc(50% - 22px);
+  left: calc(50% - 22px);
   width: 44px; height: 44px;
   display: flex;
   align-items: center;
@@ -694,9 +703,19 @@ section {
   border: 1px solid var(--border);
   border-radius: 50%;
   font-size: 1.2rem;
-  transition: transform var(--transition), box-shadow var(--transition);
   will-change: transform;
+  animation: orbit-icon 20s linear infinite;
 }
+
+/* Each icon starts at equal angular offset (360°/8 = 45° = 20s/8 = 2.5s) */
+.tech-icon:nth-child(1) { animation-delay:     0s; }
+.tech-icon:nth-child(2) { animation-delay:  -2.5s; }
+.tech-icon:nth-child(3) { animation-delay:    -5s; }
+.tech-icon:nth-child(4) { animation-delay:  -7.5s; }
+.tech-icon:nth-child(5) { animation-delay:   -10s; }
+.tech-icon:nth-child(6) { animation-delay: -12.5s; }
+.tech-icon:nth-child(7) { animation-delay:   -15s; }
+.tech-icon:nth-child(8) { animation-delay: -17.5s; }
 
 [data-theme="light"] .tech-icon {
   background: var(--primary);
@@ -704,20 +723,10 @@ section {
 }
 
 .tech-icon:hover {
-  transform: scale(1.2) !important;
+  animation-play-state: paused;
   box-shadow: 0 0 0 2px var(--secondary), 0 4px 16px var(--shadow-glow);
   z-index: 2;
 }
-
-/* 8 icons evenly on a circle of radius 150px */
-.tech-1  { top: calc(50% - 22px - 150px); left: calc(50% - 22px); }
-.tech-2  { top: calc(50% - 22px - 106px); left: calc(50% - 22px + 106px); }
-.tech-3  { top: calc(50% - 22px);         left: calc(50% - 22px + 150px); }
-.tech-4  { top: calc(50% - 22px + 106px); left: calc(50% - 22px + 106px); }
-.tech-5  { top: calc(50% - 22px + 150px); left: calc(50% - 22px); }
-.tech-6  { top: calc(50% - 22px + 106px); left: calc(50% - 22px - 106px); }
-.tech-7  { top: calc(50% - 22px);         left: calc(50% - 22px - 150px); }
-.tech-8  { top: calc(50% - 22px - 106px); left: calc(50% - 22px - 106px); }
 
 .orbit-center {
   position: absolute;
@@ -1292,6 +1301,12 @@ section {
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+/* Icon orbits at radius 150px, counter-rotates to stay upright */
+@keyframes orbit-icon {
+  from { transform: rotate(0deg)   translateY(-150px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateY(-150px) rotate(-360deg); }
+}
+
 @keyframes blink {
   0%, 100% { border-color: var(--secondary); }
   50%       { border-color: transparent; }
@@ -1356,7 +1371,6 @@ section {
   .hero-subtitle { margin: 0 auto 1.25rem; }
   .hero-typing   { justify-content: center; }
   .hero-buttons  { justify-content: center; }
-  .hero-visual   { order: -1; }
   .hero-badge    { justify-content: center; }
 
   .about-content { grid-template-columns: 1fr; gap: 2rem; }
@@ -1366,14 +1380,11 @@ section {
   .tech-orbit::before { width: 160px; height: 160px; }
   .tech-orbit::after  { width: 240px; height: 240px; }
 
-  .tech-1  { top: calc(50% - 22px - 120px); left: calc(50% - 22px); }
-  .tech-2  { top: calc(50% - 22px - 85px);  left: calc(50% - 22px + 85px); }
-  .tech-3  { top: calc(50% - 22px);         left: calc(50% - 22px + 120px); }
-  .tech-4  { top: calc(50% - 22px + 85px);  left: calc(50% - 22px + 85px); }
-  .tech-5  { top: calc(50% - 22px + 120px); left: calc(50% - 22px); }
-  .tech-6  { top: calc(50% - 22px + 85px);  left: calc(50% - 22px - 85px); }
-  .tech-7  { top: calc(50% - 22px);         left: calc(50% - 22px - 120px); }
-  .tech-8  { top: calc(50% - 22px - 85px);  left: calc(50% - 22px - 85px); }
+  /* Tighter orbit radius on mobile */
+  @keyframes orbit-icon {
+    from { transform: rotate(0deg)   translateY(-120px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateY(-120px) rotate(-360deg); }
+  }
 
   .contact-content { grid-template-columns: 1fr; gap: 2rem; }
 
@@ -1395,8 +1406,9 @@ section {
 
   .stats { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
   .stat  { padding: 1rem 0.5rem; }
-  .stat-number   { font-size: 1.6rem; }
-  .stat-label    { font-size: 0.65rem; letter-spacing: 0.5px; }
+  .stat-number { font-size: 1.6rem; }
+  .stat-suffix { font-size: 1.2rem; }
+  .stat-label  { font-size: 0.65rem; letter-spacing: 0.5px; }
 
   .highlight-card { flex-direction: column; gap: 1rem; }
   .highlight-icon { width: 44px; height: 44px; }

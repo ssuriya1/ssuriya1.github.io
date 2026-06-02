@@ -25,22 +25,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Generate Firebase Config from Secret
+      - name: Generate Firebase Config
         env:
           FIREBASE_CONFIG_JSON: ${{ secrets.FIREBASE_CONFIG_JSON }}
-        run: |
-          cat > firebase-config.js << 'ENDOFFILE'
-          import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js';
-          import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js';
-          import { getAuth } from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js';
-          ENDOFFILE
-          echo "const firebaseConfig = ${FIREBASE_CONFIG_JSON};" >> firebase-config.js
-          cat >> firebase-config.js << 'ENDOFFILE'
-          const app = initializeApp(firebaseConfig);
-          const db = getFirestore(app);
-          const auth = getAuth(app);
-          export { db, auth };
-          ENDOFFILE
+        run: node scripts/generate-firebase-config.js
+
+      - name: Generate Firestore Rules
+        env:
+          FIREBASE_ADMIN_UID: ${{ secrets.FIREBASE_ADMIN_UID }}
+        run: node scripts/generate-firestore-rules.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -9,8 +9,7 @@
       "Full Stack Developer",
       "Cloud Developer",
       "Angular Expert"
-    ],
-    "resumeUrl": "Resume.pdf"
+    ]
   },
   "navigation": [
     { "name": "Home",          "href": "#home" },

@@ -3,14 +3,28 @@
  * ES Module: loads config from Firestore (live), falls back to config.json
  */
 
-import { db } from '../firebase-config.js';
-import {
-  doc,
-  getDoc,
-  addDoc,
-  collection,
-  serverTimestamp
-} from 'https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js';
+// Firebase is loaded dynamically so a missing firebase-config.js (local dev) doesn't crash the app.
+let _db = null;
+let _firestoreFns = null;
+
+async function tryInitFirebase() {
+  try {
+    const [{ db }, fns] = await Promise.all([
+      import('../firebase-config.js'),
+      import('https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js'),
+    ]);
+    if (!db) {
+      // Local dev stub exports null — skip Firestore, use config.json
+      console.info('[portfolio] Firebase stub detected — running in offline mode (config.json fallback).');
+      return;
+    }
+    _db = db;
+    _firestoreFns = fns;
+  } catch {
+    // firebase-config.js missing entirely — run in offline mode
+    console.info('[portfolio] Firebase config not found — running in offline mode (config.json fallback).');
+  }
+}
 
 /* ════════════════════════════════════════════════════════════ */
 class Portfolio {
@@ -27,6 +41,7 @@ class Portfolio {
   /* ── Bootstrap ─────────────────────────────────────────── */
   async init() {
     this.loadTheme();
+    await tryInitFirebase();
     await this.loadConfig();
     this.renderAll();
     this.setupAnimations();
@@ -36,14 +51,17 @@ class Portfolio {
 
   /* ── Config: Firestore first, fallback config.json ──────── */
   async loadConfig() {
-    try {
-      const snap = await getDoc(doc(db, 'portfolioConfig', 'main'));
-      if (snap.exists()) {
-        this.config = snap.data();
-        return;
+    if (_db && _firestoreFns) {
+      try {
+        const { doc, getDoc } = _firestoreFns;
+        const snap = await getDoc(doc(_db, 'portfolioConfig', 'main'));
+        if (snap.exists()) {
+          this.config = snap.data();
+          return;
+        }
+      } catch (err) {
+        console.info('Firestore unavailable, using config.json fallback:', err.message);
       }
-    } catch (err) {
-      console.info('Firestore unavailable, using config.json fallback:', err.message);
     }
     try {
       const res = await fetch('config.json');
@@ -100,7 +118,7 @@ class Portfolio {
       <div class="code-line"><span class="keyword">const</span> <span class="variable">engineer</span> <span class="keyword">=</span> {</div>
       <div class="code-line">&nbsp;&nbsp;<span class="property">name</span>: <span class="string">'${name}'</span>,</div>
       <div class="code-line">&nbsp;&nbsp;<span class="property">role</span>: <span class="string">'GenAI / Agentic AI Engineer'</span>,</div>
-      <div class="code-line">&nbsp;&nbsp;<span class="property">expertise</span>: [<span class="string">'LangChain'</span>, <span class="string">'Claude API'</span>, <span class="string">'RAG'</span>],</div>
+      <div class="code-line">&nbsp;&nbsp;<span class="property">working in</span>: [<span class="string">'Claude'</span>, <span class="string">'Multi-Agent Architecture'</span>, <span class="string">'RAG'</span>],</div>
       <div class="code-line">&nbsp;&nbsp;<span class="property">experience</span>: <span class="number">5.8</span>, <span class="comment">// years</span></div>
       <div class="code-line">&nbsp;&nbsp;<span class="property">cloud</span>: [<span class="string">'GCP'</span>, <span class="string">'AWS'</span>, <span class="string">'Azure'</span>]</div>
       <div class="code-line">};</div>
@@ -112,12 +130,6 @@ class Portfolio {
     // Buttons
     const viewWorkBtn = document.getElementById('view-work-btn');
     if (viewWorkBtn) viewWorkBtn.href = githubUrl;
-
-    const resumeBtn = document.getElementById('download-resume-btn');
-    if (resumeBtn && resumeUrl) {
-      resumeBtn.href = resumeUrl;
-      resumeBtn.setAttribute('download', '');
-    }
 
     document.getElementById('get-in-touch-btn')?.addEventListener('click', e => {
       e.preventDefault();
@@ -135,7 +147,9 @@ class Portfolio {
       const suf = h.suffix || '';
       return `
         <div class="stat">
-          <span class="stat-number" data-count="${val}">${val}</span><span class="stat-suffix">${suf}</span>
+          <div class="stat-value">
+            <span class="stat-number" data-count="${val}">${val}</span><span class="stat-suffix">${suf}</span>
+          </div>
           <span class="stat-label">${h.label}</span>
         </div>`;
     }).join('');
@@ -546,7 +560,11 @@ class Portfolio {
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
 
       try {
-        await addDoc(collection(db, 'contacts'), {
+        if (!_db || !_firestoreFns) {
+          throw new Error('offline');
+        }
+        const { addDoc, collection, serverTimestamp } = _firestoreFns;
+        await addDoc(collection(_db, 'contacts'), {
           name, email, message,
           timestamp: serverTimestamp(),
           source: 'portfolio'
@@ -554,8 +572,12 @@ class Portfolio {
         this.showFormMsg(msgEl, 'success', '✓ Message sent! I\'ll get back to you soon.');
         form.reset();
       } catch (err) {
-        console.error('Form submit error:', err);
-        this.showFormMsg(msgEl, 'error', 'Something went wrong. Please try emailing directly.');
+        if (err.message === 'offline') {
+          this.showFormMsg(msgEl, 'error', 'Contact form unavailable in local preview. Use the email link above.');
+        } else {
+          console.error('Form submit error:', err);
+          this.showFormMsg(msgEl, 'error', 'Something went wrong. Please try emailing directly.');
+        }
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = `<i class="${this.config.contact?.form?.submitIcon || 'fas fa-paper-plane'}"></i> ${this.config.contact?.form?.submitText || 'Send Message'}`;
